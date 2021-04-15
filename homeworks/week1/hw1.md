@@ -9,4 +9,4 @@
 6. 將在自己電腦上的 week1 branch push 到 GitHub上，才是將 local 和 remote 同步： `git push origin week1`
 7. 此時 GitHub 上會出現 week1  這個 branch，並點選 pull request 到 "master" branch。
 8. 打完 commit messege 後點選 Create pull request。
-9. 到學習系統點選繳交作業，貼上繳交作業網址繳交。
+9. 到學習系統點選繳交作業，貼上 pull request 後的網址繳交。
