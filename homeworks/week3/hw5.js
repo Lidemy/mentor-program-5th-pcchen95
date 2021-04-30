@@ -19,25 +19,25 @@ function solve(lines) {
     const temp = lines[i].split(' ')
     const A = temp[0]
     const B = temp[1]
-    const index = Number(temp[2])
+    const key = Number(temp[2])
     const digitA = temp[0].length
     const digitB = temp[1].length
-    if ((digitA - digitB) * index > 0) {
+    if ((digitA - digitB) * key > 0) {
       console.log('A')
-    } else if ((digitA - digitB) * index < 0) {
+    } else if ((digitA - digitB) * key < 0) {
       console.log('B')
     } else {
-      console.log(numCompare(A, B, index))
+      console.log(numCompare(A, B, key))
     }
   }
 }
 
-function numCompare(a, b, index) {
+function numCompare(a, b, key) {
   for (let i = 0; i < a.length; i++) {
     const diff = a[i] - b[i]
-    if (diff * index > 0) {
+    if (diff * key > 0) {
       return 'A'
-    } else if (diff * index < 0) {
+    } else if (diff * key < 0) {
       return 'B'
     }
   }

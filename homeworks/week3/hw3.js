@@ -16,16 +16,20 @@ rl.on('close', () => {
 function solve(lines) {
   for (let i = 1; i < lines.length; i++) {
     const num = Number(lines[i])
-    console.log(isPrime(num))
+    if (isPrime(num)) {
+      console.log('Prime')
+    } else {
+      console.log('Composite')
+    }
   }
 }
 
 function isPrime(n) {
-  if (n === 1) return 'Composite'
+  if (n === 1) return false
   else {
     for (let i = 2; i <= n / 2; i++) {
-      if (n % i === 0) return 'Composite'
+      if (n % i === 0) return false
     }
-    return 'Prime'
+    return true
   }
 }
