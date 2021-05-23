@@ -1,0 +1,105 @@
+body {
+  font-family: 微軟正黑體;
+}
+
+.form {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%,0);
+  width: 645px;
+  height: 1093px;
+  background: white;
+  box-shadow: 1.8px 2.4px 5px 0 rgba(0, 0, 0, 0.3);
+}
+
+.top {
+  height: 8px;
+  background: #fad312;
+}
+
+section {
+  margin: 54px 40px 16px 40px;
+}
+
+section h1 {
+  font-size: 36px;
+  margin: 0;
+}
+
+.event-info {
+  margin-top: 35px;
+  font-size: 13px;
+  line-height: 2em;
+}
+
+.event-info + div {
+  color: #e74149;
+  font-size: 16px;
+  margin-top: 22px;
+}
+
+.field-name {
+  margin-top: 45px;
+  font-size: 20px;
+  color: black;
+}
+
+.field-name:after {
+  content: " *";
+  color: #e74149;
+  font-size: 20px;
+}
+
+.textbox {
+  display: flex;
+  margin-top: 15px;
+  width: 287px;
+  height: 23px;
+  border: solid 1px #d0d0d0;
+  color: #d0d0d0;
+  font-size: 16px;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.option:before {
+  content:"";
+  width: 12px;
+  height: 12px;
+  background: #bababa;
+  border: solid 1px #d0d0d0;
+  color: #bababa;
+  border-radius: 50%;
+  box-sizing: border-box;
+  margin-right: 9px;
+}
+
+.remark {
+  font-size: 14px;
+  margin-top: 12px;
+}
+
+.submit {
+  display: inline-block;
+  padding: 13px 30px;
+  background: #fad312;
+  font-size: 15px;
+  border-radius: 3px;
+  margin-top: 55px;
+  cursor: pointer;
+}
+
+@media(max-width: 768px) {
+  .form {
+    position: static;
+    left:0;
+    transform: translate(0,0);
+    width: 100%;
+  }
+}
