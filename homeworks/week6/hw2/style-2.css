@@ -1,4 +1,5 @@
 body {
+  background: #E8E8E8;
   font-family: 微軟正黑體;
 }
 
@@ -50,7 +51,7 @@ section h1 {
   font-size: 20px;
 }
 
-.textbox {
+.textbox input {
   display: flex;
   margin-top: 15px;
   width: 287px;
@@ -66,18 +67,11 @@ section h1 {
   display: flex;
   align-items: center;
   margin-top: 24px;
+  font-size: 14px;
 }
 
-.option:before {
-  content:"";
-  width: 12px;
-  height: 12px;
-  background: #bababa;
-  border: solid 1px #d0d0d0;
-  color: #bababa;
-  border-radius: 50%;
-  box-sizing: border-box;
-  margin-right: 9px;
+.option label {
+  margin-left: 9px;
 }
 
 .remark {
