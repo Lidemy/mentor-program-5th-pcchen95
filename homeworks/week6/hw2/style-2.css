@@ -4,11 +4,10 @@ body {
 }
 
 .form {
-  position: absolute;
+  margin: 50px auto;
   left: 50%;
-  transform: translate(-50%,0);
   width: 645px;
-  height: 1093px;
+  height: auto;
   background: white;
   box-shadow: 1.8px 2.4px 5px 0 rgba(0, 0, 0, 0.3);
 }
@@ -40,7 +39,7 @@ section h1 {
 }
 
 .field-name {
-  margin-top: 45px;
+  margin-top: 50px;
   font-size: 20px;
   color: black;
 }
@@ -53,7 +52,7 @@ section h1 {
 
 .textbox input {
   display: flex;
-  margin-top: 15px;
+  margin-top: 20px;
   width: 287px;
   height: 23px;
   border: solid 1px #d0d0d0;
@@ -79,6 +78,11 @@ section h1 {
   margin-top: 12px;
 }
 
+.warn {
+  padding-bottom: 35px;
+  margin-top: 21px;
+}
+
 .submit {
   display: inline-block;
   padding: 13px 30px;
@@ -89,11 +93,29 @@ section h1 {
   cursor: pointer;
 }
 
+.footer {
+  margin-top: 66px;
+  height: 60px;
+  background: black;
+  color: #999999;
+  font-size: 13px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @media(max-width: 768px) {
   .form {
-    position: static;
-    left:0;
-    transform: translate(0,0);
+    margin: 0;
     width: 100%;
+    height: auto;
+  }
+
+  section {
+    margin-bottom: 0;
+  }
+
+  .footer {
+    margin-top: 0;
   }
 }
