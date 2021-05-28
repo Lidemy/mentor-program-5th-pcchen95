@@ -66,6 +66,10 @@ section h1 {
   box-sizing: border-box;
 }
 
+.textbox .input-entered {
+  color: black;
+}
+
 .remind-text {
   display: none;
   position: absolute;

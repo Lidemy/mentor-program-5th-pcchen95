@@ -63,20 +63,29 @@
   </div>
 
   <script>
+    // 輸入文字時顏色為黑色
     const input = document.querySelectorAll('.textbox input')
     for (let i = 0; i < input.length; i++) {  
       input[i].addEventListener('keydown', function(e) {
-        input[i].style.color = 'black'
+        input[i].classList.add('input-entered')
       })
     }
 
-    function checkItem(elements) {
+    // 回傳所選的選項
+    function itemChecked(elements) {
       for (let i = 0; i < elements.length; i++) {
         if (elements[i].checked) {
           return [elements[i].name+'：', elements[i].value]
         }
       }
       return ''
+    }
+
+    // 每一題是否已加提醒紅字，預設為 false
+    let isReminded = []
+    const fieldNameNum = document.querySelectorAll('.field-name')
+    for (let i = 0; i < fieldNameNum; i++) {
+      isReminded[i] = false
     }
     
     const submit = document.querySelector('.submit')
@@ -88,30 +97,34 @@
       for (let i = 0; i < item.length; i++) {
         if(item[i].classList.contains('option')) {  // 回答類型是 option
           reply = item[i].querySelectorAll('div > input')
-          if (checkItem(reply) === '') {      // 檢查漏填
+          if (itemChecked(reply) === '') {      // 檢查漏填
             // 檢查提醒紅字是否已存在，不存在才加   
-            if (!(item[i].querySelector('.active'))) {         
-              item[i].querySelector('.remind-text').classList.add('active')        
+            if (!isReminded[i]) {         
+              item[i].querySelector('.remind-text').classList.add('active')  
+              isReminded[i] = true      
             }
             invalidCount++ 
           }
-          else {  // 有填回答
-            if (item[i].querySelector('.active')) {   //如果有顯示提醒紅字的，要拿掉
+          else {  // 有輸入回答
+            if (isReminded[i]) {   //如果有顯示提醒紅字的，要拿掉
               item[i].querySelector('.remind-text').classList.remove('active')
+              isReminded[i] = false
             }
-            output += checkItem(reply)[0] + checkItem(reply)[1] +'\n'
+            output += itemChecked(reply)[0] + itemChecked(reply)[1] +'\n'
           }
         } else {  // 回答類型是 textbox 的
             reply = item[i].querySelector('input')
             if (reply.value === ''){  // 檢查漏填
               // 檢查提醒紅字是否已存在，不存在才加
-              if (!(item[i].querySelector('.active'))){
-                item[i].querySelector('.remind-text').classList.add('active')          
+              if (!(isReminded[i])){
+                item[i].querySelector('.remind-text').classList.add('active') 
+                isReminded[i] = true         
               }
               invalidCount++
-            } else {  // 有填回答
-              if (item[i].querySelector('.active')) {  //如果有顯示提醒紅字的，要拿掉
+            } else {  // 有輸入回答
+              if (isReminded[i]) {  // 如果有顯示提醒紅字的，要拿掉
                 item[i].querySelector('.remind-text').classList.remove('active')
+                isReminded[i] = false
               }
               output += reply.name + '：' + reply.value + '\n'
             }     

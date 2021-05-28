@@ -137,7 +137,7 @@
     </div>
   </footer>
   <script>
-    let clickList = []
+    let clickList = []  //[這次點選的 item, 上次點選的 item]
     const click = document.querySelector('section').addEventListener('click', function(e) {
       if (e.target.parentNode.classList.contains('question')){
         clickList[0] = e.target

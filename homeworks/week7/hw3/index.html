@@ -23,6 +23,7 @@
 
   <script>
     const element = document.querySelector('.add')
+    let isTodoItemExisted = false
     element.addEventListener('keypress', function(e) {
       if (e.key === 'Enter') {
         const input = document.querySelector('.add').value
@@ -35,10 +36,11 @@
           <div class="dele"></div>`
         const parent = document.querySelector('.todo-list')
         const child = document.querySelector('.todo-item')
-        if (child) {
+        if (isTodoItemExisted) {
           parent.insertBefore(newTodo, child)
         } else {
           parent.appendChild(newTodo)
+          isTodoItemExisted = true
         }
         document.querySelector('.add').value = ''
       }
