@@ -25,26 +25,34 @@
         <div class="field-name required">暱稱</div>
         <div class="textbox">
             <input type="text" placeholder="您的回答" name="暱稱">
+            <div class="remind-text">此欄位為必填</div>
         </div> 
         <div class="field-name required">電子郵件</div>
         <div class="textbox">
-          <input type="email" placeholder="您的電子郵件" name="電子郵件"></div>
+          <input type="email" placeholder="您的電子郵件" name="電子郵件">
+          <div class="remind-text">此欄位為必填</div>
+        </div>
         <div class="field-name required">手機號碼</div>
         <div class="textbox">
-          <input type="text" placeholder="您的手機號碼" name="手機號碼"></div>
+          <input type="text" placeholder="您的手機號碼" name="手機號碼">
+          <div class="remind-text">此欄位為必填</div>
+        </div>
         <div class="field-name required">報名類型</div>
         <div class="option">
           <div><input type="radio" name="報名類型" id="bed" value="躺在床上用想像力實作"><label for="bed">躺在床上用想像力實作</label></div>
           <div><input type="radio" name="報名類型" id="floor" value="趴在地上滑手機找現成的"><label for="floor">趴在地上滑手機找現成的</label></div>
+          <div class="remind-text">此欄位為必填</div>
         </div>
         <div class="field-name required">怎麼知道這個活動的？</div>
         <div class="textbox">
-          <input type="text" placeholder="您的回答" name="怎麼知道這個活動的？"></div>
+          <input type="text" placeholder="您的回答" name="怎麼知道這個活動的？">
+          <div class="remind-text">此欄位為必填</div>
+        </div>
         <div class="field-name">其他</div>
         <div class="remark">對活動的一些建議</div>
         <div class="textbox">
           <input type="text" placeholder="您的回答" name="其他"></div>
-        <button type="button" class="submit">提交</button>
+        <input type="button" class="submit" value="提交"></input>
         <div class="remark warn">請勿透過表單送出您的密碼。</div>
       </form>
     </section>
@@ -70,40 +78,46 @@
       }
       return ''
     }
-
+    
     const submit = document.querySelector('.submit')
     submit.addEventListener('click', function(e) {
       const item = document.querySelectorAll('.required + div')
       let output = ''
-      let invalidCount = 0
+      let invalidCount = 0  // 有幾欄 required 沒填
+      let reply
       for (let i = 0; i < item.length; i++) {
-        let reply
-        if(item[i].classList.contains('option')) {
+        if(item[i].classList.contains('option')) {  // 回答類型是 option
           reply = item[i].querySelectorAll('div > input')
-          if (checkItem(reply) === '' ) {
-            const reminder = document.createElement('div')
-            reminder.classList.add('remind-text')
-            reminder.innerText = '此欄位為必填'
-            item[i].closest('.option').appendChild(reminder)
-            document.querySelector('.option .remind-text').style.top = '40px'
-            invalidCount++
-          } else {
+          if (checkItem(reply) === '') {      // 檢查漏填
+            // 檢查提醒紅字是否已存在，不存在才加   
+            if (!(item[i].querySelector('.active'))) {         
+              item[i].querySelector('.remind-text').classList.add('active')        
+            }
+            invalidCount++ 
+          }
+          else {  // 有填回答
+            if (item[i].querySelector('.active')) {   //如果有顯示提醒紅字的，要拿掉
+              item[i].querySelector('.remind-text').classList.remove('active')
+            }
             output += checkItem(reply)[0] + checkItem(reply)[1] +'\n'
           }
-        } else {
-          reply = item[i].querySelector('input')
-            if (reply.value === ''){
-              const reminder = document.createElement('div')
-              reminder.classList.add('remind-text')
-              reminder.innerText = '此欄位為必填'
-              reply.closest('.textbox').appendChild(reminder)
+        } else {  // 回答類型是 textbox 的
+            reply = item[i].querySelector('input')
+            if (reply.value === ''){  // 檢查漏填
+              // 檢查提醒紅字是否已存在，不存在才加
+              if (!(item[i].querySelector('.active'))){
+                item[i].querySelector('.remind-text').classList.add('active')          
+              }
               invalidCount++
-            } else {
+            } else {  // 有填回答
+              if (item[i].querySelector('.active')) {  //如果有顯示提醒紅字的，要拿掉
+                item[i].querySelector('.remind-text').classList.remove('active')
+              }
               output += reply.name + '：' + reply.value + '\n'
             }     
         }
       }
-      if (invalidCount ===0) {
+      if (invalidCount === 0) {  // 都沒有錯誤才跳 alert box
         const advice = document.querySelector('.remark + .textbox > input')
         output += advice.name + '：' + advice.value
 

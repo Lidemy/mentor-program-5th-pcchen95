@@ -67,10 +67,15 @@ section h1 {
 }
 
 .remind-text {
+  display: none;
   position: absolute;
   top: 30px;
   color: red;
   font-size: 14px;
+}
+
+.active {
+  display: block;
 }
 
 .option {
@@ -79,10 +84,16 @@ section h1 {
   position: relative;
 }
 
+.option .remind-text {
+  position: absolute;
+  top: 40px;
+  color: red;
+  font-size: 14px;
+}
+
 .option div {
   margin-top: 23px;
 }
-
 
 .option div label {
   margin-left: 9px;
@@ -103,9 +114,11 @@ section h1 {
   padding: 13px 30px;
   background: #fad312;
   font-size: 15px;
+  border: solid 1px transparent;
   border-radius: 3px;
   margin-top: 55px;
   cursor: pointer;
+  box-sizing: border-box;
 }
 
 .footer {
