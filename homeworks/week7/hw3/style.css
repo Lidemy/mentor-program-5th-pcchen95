@@ -1,0 +1,182 @@
+body {
+  font-family: Questrial; 
+}
+
+.main {
+  width: 700px;
+  height: auto;
+  background: #FFF8D7;
+  margin: 75px auto;
+  text-align: center;
+  border: solid 1px #EAC100;
+  border-radius: 10px;
+  box-shadow: 1.8px 2.4px 5px 0 rgba(0, 0, 0, 0.3);
+}
+
+.main h1 {
+  font-size: 55px;
+  padding: 24px;
+  margin: 0;
+  color: #5B4B00;
+}
+
+.add {
+  margin: 0 auto 20px auto;
+  width: 600px;
+  height:40px;
+  border: solid 1px #E0E0E0;
+  border-radius: 5px;
+  background: #FFF8D7;
+  font-size: 24px;
+  color: #977C00;
+}
+
+input[type=text] {
+  border-top: solid 1px transparent;
+  border-right: solid 1px transparent;
+  border-bottom: solid 1px #EAC100;
+  border-left: solid 1px transparent;
+  border-radius: 3px;
+}
+
+::placeholder {
+  color: #dbc665;
+}
+
+.todo-list {
+  margin: 20px 50px;
+  color: #977C00;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  position: relative;
+  height: 50px;
+  transition: all 0.2s;
+}
+
+.todo-list .todo-item-done {
+  color: #dbc665;
+  text-decoration: line-through;
+  transition: all 0.2s;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  border: solid 2px #977C00;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+
+.checkbox-done {
+  border-color: #dbc665;
+  transition: all 0.2s;
+}
+
+.checkbox-done:before, .checkbox-done:after {
+  content: ''; 
+  display: block;
+  position: absolute;
+  border-radius: 2px; 
+  transform-origin: center center;
+}
+
+.checkbox-done:before{
+  width: 2px;
+  height: 10px;
+  top: 22px;
+  left: 8px;
+  transform: rotate(-45deg);
+  background: #dbc665;
+  z-index: 20;
+}
+
+.checkbox-done:after {
+  width: 2px;
+  height: 25px;
+  top: 9.5px;
+  left: 19.5px;
+  transform: translate(0, 0) rotate(-140deg);
+  background: #dbc665;
+  box-shadow: 0 0 0 3px #FFF8D7;
+  z-index: 10;
+}
+
+.todo-title {
+  font-size: 24px;
+  margin-left: 20px;
+}
+
+.dele {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: 0;
+  cursor: pointer;
+}
+
+.dele:after, .dele:before {
+  content: '';
+  position: absolute;
+  right: 0px;
+  height: 20px;
+  width: 2px;
+  background: #977C00;
+  transition: all 0.2s;
+}
+
+.dele:after {
+  transform: translate(-10px, 0) rotate(-45deg); 
+  transition: all 0.2s;
+}
+
+.dele:before {
+  transform: translate(-10px, 0) rotate(45deg); 
+  transition: all 0.2s;
+}
+
+.todo-item .dele-done {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: 0;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.todo-item .dele-done:after, 
+.todo-item .dele-done:before {
+  content: '';
+  position: absolute;
+  right: 0px;
+  height: 20px;
+  width: 2px;
+  background: #dbc665;
+  transition: all 0.2s;
+}
+
+.todo-item .dele-done:after {
+  transform: translate(-10px, 0) rotate(-45deg); 
+  transition: all 0.2s;
+}
+
+.todo-item .dele-done:before {
+  transform: translate(-10px, 0) rotate(45deg); 
+  transition: all 0.2s;
+}
+
+@media(max-width: 768px) {
+  .main {
+    width: 100%;
+    margin: 0;
+    border-radius: 0px;
+  }
+
+  .add {
+    width: 85%;
+  }
+}
