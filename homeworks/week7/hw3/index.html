@@ -27,12 +27,12 @@
     element.addEventListener('keypress', function(e) {
       if (e.key === 'Enter') {
         const input = document.querySelector('.add').value
-
+        if(!input) return
         const newTodo = document.createElement('div')
         newTodo.classList.add('todo-item')
         newTodo.innerHTML = `
           <div class="checkbox" name="${input}"></div>
-          <span class="todo-title">${input}</span>
+          <span class="todo-title">${escapeHtml(input)}</span>
           <div class="dele"></div>`
         const parent = document.querySelector('.todo-list')
         const child = document.querySelector('.todo-item')
@@ -58,6 +58,15 @@
         e.target.parentNode.classList.toggle('todo-item-done') 
         e.target.parentNode.querySelector('.dele').classList.toggle('dele-done')      }
     })
+
+    function escapeHtml(unsafe) {
+      return unsafe
+           .replace(/&/g, "&amp;")
+           .replace(/</g, "&lt;")
+           .replace(/>/g, "&gt;")
+           .replace(/"/g, "&quot;")
+           .replace(/'/g, "&#039;");
+    }
   </script>
 </body>
 </html>
