@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>報名表單</title>
+  <meta name ="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
+  <link rel="stylesheet" href="./style-2.css">
+
+</head>
+<body>
+  <div class="form">
+    <div class="top"></div>
+    <section>
+      <h1>新拖延運動報名表單</h1>
+      <div class="event-info">
+        <div>活動日期：2020/12/10 ~ 2020/12/11</div>
+        <div>活動地點：台北市大安區新生南路二段1號</div>
+      </div>
+      <div>* 必填</div>
+      <form>
+        <div class="field-name required">暱稱</div>
+        <div class="textbox">
+            <input type="text" placeholder="您的回答" name="暱稱">
+            <div class="remind-text">此欄位為必填</div>
+        </div> 
+        <div class="field-name required">電子郵件</div>
+        <div class="textbox">
+          <input type="email" placeholder="您的電子郵件" name="電子郵件">
+          <div class="remind-text">此欄位為必填</div>
+        </div>
+        <div class="field-name required">手機號碼</div>
+        <div class="textbox">
+          <input type="text" placeholder="您的手機號碼" name="手機號碼">
+          <div class="remind-text">此欄位為必填</div>
+        </div>
+        <div class="field-name required">報名類型</div>
+        <div class="option">
+          <div><input type="radio" name="報名類型" id="bed" value="躺在床上用想像力實作"><label for="bed">躺在床上用想像力實作</label></div>
+          <div><input type="radio" name="報名類型" id="floor" value="趴在地上滑手機找現成的"><label for="floor">趴在地上滑手機找現成的</label></div>
+          <div class="remind-text">此欄位為必填</div>
+        </div>
+        <div class="field-name required">怎麼知道這個活動的？</div>
+        <div class="textbox">
+          <input type="text" placeholder="您的回答" name="怎麼知道這個活動的？">
+          <div class="remind-text">此欄位為必填</div>
+        </div>
+        <div class="field-name">其他</div>
+        <div class="remark">對活動的一些建議</div>
+        <div class="textbox">
+          <input type="text" placeholder="您的回答" name="其他"></div>
+        <input type="button" class="submit" value="提交"></input>
+        <div class="remark warn">請勿透過表單送出您的密碼。</div>
+      </form>
+    </section>
+  </div>
+  <div class="footer">
+    <div class="line"></div>
+    <div class="copyright"><p>© 2020 © Copyright. All rights Reserved.</p></div>
+  </div>
+
+  <script>
+    // 輸入文字時顏色為黑色
+    const input = document.querySelectorAll('.textbox input')
+    for (let i = 0; i < input.length; i++) {  
+      input[i].addEventListener('keydown', function(e) {
+        input[i].classList.add('input-entered')
+      })
+    }
+
+    // 回傳所選的選項
+    function itemChecked(elements) {
+      for (let i = 0; i < elements.length; i++) {
+        if (elements[i].checked) {
+          return [elements[i].name+'：', elements[i].value]
+        }
+      }
+      return ''
+    }
+
+    // 每一題是否已加提醒紅字，預設為 false
+    let isReminded = []
+    const fieldNameNum = document.querySelectorAll('.field-name')
+    for (let i = 0; i < fieldNameNum; i++) {
+      isReminded[i] = false
+    }
+    
+    const submit = document.querySelector('.submit')
+    submit.addEventListener('click', function(e) {
+      const item = document.querySelectorAll('.required + div')
+      let output = ''
+      let invalidCount = 0  // 有幾欄 required 沒填
+      let reply
+      for (let i = 0; i < item.length; i++) {
+        if(item[i].classList.contains('option')) {  // 回答類型是 option
+          reply = item[i].querySelectorAll('div > input')
+          if (itemChecked(reply) === '') {      // 檢查漏填
+            // 檢查提醒紅字是否已存在，不存在才加   
+            if (!isReminded[i]) {         
+              item[i].querySelector('.remind-text').classList.add('active')  
+              isReminded[i] = true      
+            }
+            invalidCount++ 
+          }
+          else {  // 有輸入回答
+            if (isReminded[i]) {   //如果有顯示提醒紅字的，要拿掉
+              item[i].querySelector('.remind-text').classList.remove('active')
+              isReminded[i] = false
+            }
+            output += itemChecked(reply)[0] + itemChecked(reply)[1] +'\n'
+          }
+        } else {  // 回答類型是 textbox 的
+            reply = item[i].querySelector('input')
+            if (reply.value === ''){  // 檢查漏填
+              // 檢查提醒紅字是否已存在，不存在才加
+              if (!(isReminded[i])){
+                item[i].querySelector('.remind-text').classList.add('active') 
+                isReminded[i] = true         
+              }
+              invalidCount++
+            } else {  // 有輸入回答
+              if (isReminded[i]) {  // 如果有顯示提醒紅字的，要拿掉
+                item[i].querySelector('.remind-text').classList.remove('active')
+                isReminded[i] = false
+              }
+              output += reply.name + '：' + reply.value + '\n'
+            }     
+        }
+      }
+      if (invalidCount === 0) {  // 都沒有錯誤才跳 alert box
+        const advice = document.querySelector('.remark + .textbox > input')
+        output += advice.name + '：' + advice.value
+
+        alert(output)
+        window.location.reload()
+      }
+    })
+
+  </script>
+</body>
+</html>

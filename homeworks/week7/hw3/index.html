@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>Todo List</title>
+  <meta name ="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
+  <link rel="stylesheet" href="./style.css">
+
+  <link rel="preconnect" href="https://fonts.gstatic.com"> 
+  <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
+</head>
+<body>
+  <section class="main">
+    <h1>Todo List</h1>
+    <input type="text" style="outline:none" class="add" placeholder=" Add To Do ...">
+    <div class="todo-list">
+    </div>
+  </section>
+
+  <script>
+    const element = document.querySelector('.add')
+    let isTodoItemExisted = false
+    element.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        const input = document.querySelector('.add').value
+        if(!input) return
+        const newTodo = document.createElement('div')
+        newTodo.classList.add('todo-item')
+        newTodo.innerHTML = `
+          <div class="checkbox" name="${input}"></div>
+          <span class="todo-title">${escapeHtml(input)}</span>
+          <div class="dele"></div>`
+        const parent = document.querySelector('.todo-list')
+        const child = document.querySelector('.todo-item')
+        if (isTodoItemExisted) {
+          parent.insertBefore(newTodo, child)
+        } else {
+          parent.appendChild(newTodo)
+          isTodoItemExisted = true
+        }
+        document.querySelector('.add').value = ''
+      }
+    })
+
+    document.querySelector('.todo-list').addEventListener('click', function(e) {
+      if(e.target.classList.contains('dele')) {
+        document.querySelector('.todo-list').removeChild(e.target.closest('.todo-item'))
+      }
+    })
+
+    document.querySelector('.todo-list').addEventListener('click', function(e) {
+      if(e.target.classList.contains('checkbox')) {
+        e.target.classList.toggle('checkbox-done')
+        e.target.parentNode.classList.toggle('todo-item-done') 
+        e.target.parentNode.querySelector('.dele').classList.toggle('dele-done')      }
+    })
+
+    function escapeHtml(unsafe) {
+      return unsafe
+           .replace(/&/g, "&amp;")
+           .replace(/</g, "&lt;")
+           .replace(/>/g, "&gt;")
+           .replace(/"/g, "&quot;")
+           .replace(/'/g, "&#039;");
+    }
+  </script>
+</body>
+</html>
