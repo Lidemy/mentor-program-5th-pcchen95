@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>Just A Bite!</title>
+  <meta name ="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
+  <link rel="stylesheet" href="./style.css">
+
+  <link rel="preconnect" href="https://fonts.gstatic.com"> 
+  <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="wrapper">
+      <div class="navbar__site-name">
+        Just A Bite!
+      </div>
+      <ul class="navbar__button">
+        <li class="active"><a href="#">抽個大獎</a></li>
+        <li><a href="#">我要點餐</a></li>
+        <li><a href="#">查詢訂單</a></li>
+        <li><a href="#">常見問題</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="main-area origin">
+    <section class="event">
+      <div class="event__title"><h1>2020 夏日輕盈特賞！ 抽獎活動辦法</h1></div>
+      <div class="event__desc">
+        <div  class="event__desc-title">活動期間：</div>
+        <div class="event__desc-content">2020/06/01~2020/07/01</div>
+      </div>
+      <hr>
+      <div class="event__desc">
+        <div  class="event__desc-title">活動說明：</div>
+        <div class="event__desc-content">今天老闆佛心來著決定給大家發獎勵，有看有機會，沒看只能幫QQ！只要在店內消費滿1000000元即有機會獲得 - 頭獎日本東京來回雙人遊！</div>
+      </div>
+      <hr>
+      <div class="event__desc">
+        <div  class="event__desc-title">獎&emsp;&emsp;品：</div>
+        <div class="event__desc-content">
+        ❤ 頭獎一名：日本東京來回雙人遊(市價14990元)<br>
+        ❤ 貳獎三名：90 吋電視一台(市價5990元)<br>
+        ❤ 參獎十名：知名 YouTuber 簽名握手會入場券一張(市價1500元)
+        </div>
+      </div>
+      <hr>
+      <div class="event__btn">
+        <button type="submit">我要抽獎</button>
+      </div>
+    </section>
+    <section class="prize prize__hide">
+      <h2></h2>
+      <div class="lottery-again">
+        <button type="submit">再抽一次</button>
+      </div>
+    </section>
+  </div>
+  <footer>
+    <div class="footer__top">
+      <div class="footer__top-info">
+        <div>餐館地址: 天上地下天堂路三分之一里六段520號</div>
+        <div>訂位專線：02-1314-5566</div>
+        <div>營業時間：週一〜週五 09:00~18:00 / 週六、週日、國定假日（含連假）休息</div>
+        <div>email：service@justabite.com.tw</div>
+      </div>
+      <div class="footer__top-site">
+        <div>Just A Bite!</div>
+        <div>Facebook / Instagram / Youtube</div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <a>Copyright © 2020 Just A Bite All Rights Reserved. 咬一口股份有限公司版權所有</a>
+    </div>
+  </footer>
+
+  <script>
+    let prize
+    document.querySelector('.event__btn').addEventListener('click', function(e) {
+      
+      const request = new XMLHttpRequest()
+      request.onload = function() {
+        if (request.status >= 200 && request.status < 400) {
+          const response = request.responseText
+          let json
+          try {
+            json = JSON.parse(response)
+          } catch (err) {
+            alert('系統不穩定，請再試一次')
+            return
+          }
+           
+          prize = json.prize
+          //console.log(prize)
+          if(prize === 'FIRST') {
+            document.querySelector('.main-area').classList.add('first-prize')
+            document.querySelector('.prize h2').innerText = '恭喜你中頭獎了！日本東京來回雙人遊！'
+          } else if(prize === 'SECOND') {
+            document.querySelector('.main-area').classList.add('second-prize')
+            document.querySelector('.prize h2').innerText = '二獎！90 吋電視一台！'
+          } else if(prize === 'THIRD') {
+            document.querySelector('.main-area').classList.add('third-prize')
+            document.querySelector('.prize h2').innerText = '恭喜你抽中三獎：知名 YouTuber 簽名握手會入場券一張，bang！'
+          } else if(prize === 'NONE') {
+            document.querySelector('.main-area').classList.add('none-prize')
+            document.querySelector('.prize h2').innerText = '銘謝惠顧'
+          } else {
+            alert('系統不穩定，請再試一次')
+            window.location.reload()
+          }
+        } else {
+          alert('系統不穩定，請再試一次')
+          window.location.reload()
+        }
+      }
+
+      request.onerror = function() {
+        alert('系統不穩定，請再試一次')
+        window.location.reload()
+      }     
+
+      request.open('GET', 'https://dvwhnbka7d.execute-api.us-east-1.amazonaws.com/default/lottery', true)
+      request.send()
+
+      document.querySelector('.event').classList.add('event__hide')
+      document.querySelector('.main-area').classList.remove('origin')
+      document.querySelector('.prize').classList.remove('prize__hide')
+      
+    })
+
+    document.querySelector('.lottery-again').addEventListener('click', function(e) {
+      window.location.reload()
+    })
+    
+  </script>
+</body>
+</html>
