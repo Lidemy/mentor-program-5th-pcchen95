@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>Twitch Top Games</title>
+  <meta name ="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="navbar__site-name">Twitch Top Games</div>
+    <ul class="navbar__games-button">
+    </ul>
+  </nav>
+  <div class="main-area">
+    <section class="section">
+      <h2></h2>
+      <h3>Top 20 live streams sorted by current viewers</h3>
+      <div class="streams">
+      </div>
+    </section>
+  </div>
+
+  <script>
+    /* -----------------載入前 5 大熱門遊戲-------------------- */
+    const request = new XMLHttpRequest()
+    let game
+    request.onload = function() { 
+      if (request.status >= 200 && request.status < 400) { 
+        const response = request.responseText
+        const json = JSON.parse(response)
+        const buttons = document.querySelectorAll('li')
+        for (let i = 0; i < json.top.length; i++) {
+          const li = document.createElement('li')
+          li.innerText = json.top[i].game.name 
+          //buttons[i].innerText = json.top[i].game.name
+          if (i === 0) {
+            li.classList.add('active')
+          }
+          document.querySelector('.navbar__games-button').appendChild(li)
+        }
+        game = json.top[0].game.name
+
+      }
+    
+      /* -----------------載入各遊戲前 20 大熱門實況---------------- */
+      function showTopStreams(game) {
+        if (document.querySelector('.dummy')){
+          const child_dummy = document.querySelectorAll('.dummy')
+          for (let i = child_dummy.length - 1; i >= 0; i--) {
+            document.querySelector('.streams').removeChild(child_dummy[i])
+          }
+        }
+
+        const request_stream = new XMLHttpRequest()
+
+        request_stream.onload = function() { 
+          if (request_stream.status >= 200 && request_stream.status < 400) { 
+            const response = request_stream.responseText
+            const json_stream = JSON.parse(response)
+            //console.log(json_stream.streams)
+            for (let i = 0 ; i < json_stream.streams.length; i++) {
+              const ch = json_stream.streams[i]
+              const url = ch.channel.url
+              const preview = ch.preview.large
+              const logo = ch.channel.logo
+              const status = ch.channel.status
+              const name = ch.channel.display_name     
+              const item = document.createElement('div')
+              item.classList.add('streams__stream')
+              item.innerHTML = `
+                <a href=${url} target="_blank">
+                  <div class="streams__preview">
+                    <img src=${preview}>
+                  </div>
+                  <div class="streams__channel">
+                    <div class="streams__logo">
+                      <img src=${logo}>
+                    </div>
+                    <div class="streams__text">
+                      <div class="streams__status">
+                        ${status}
+                      </div>
+                      <div class="streams__name">
+                        ${name}
+                      </div>
+                    </div>
+                  </div>
+                </a>`
+                document.querySelector('.streams').appendChild(item)
+            }
+            const dummy = document.createElement('div')
+            dummy.classList.add('dummy')
+            document.querySelector('.streams').appendChild(dummy)
+          }
+        }
+
+        request_stream.onerror = function() {
+          console.log('error')
+        }  
+
+        game = encodeURIComponent(game)
+        request_stream.open('GET', `https://api.twitch.tv/kraken/streams/?game=${game}&limit=20`, true)
+        request_stream.setRequestHeader('Client-ID', 'tdvc2nlt9v001vzbdgzoon7av64cd2')
+        request_stream.setRequestHeader('Accept', 'application/vnd.twitchtv.v5+json')
+        request_stream.send()
+      }
+
+      document.querySelector('h2').innerText = game
+      showTopStreams(game)
+
+      /* ----------------點選上方按鈕更換遊戲--------------------- */
+
+      document.querySelector('.navbar__games-button')
+        .addEventListener('click', function(e) {
+          if (e.target.tagName.toLowerCase() === 'li') {
+            document.querySelector('.active').classList.remove('active')
+            e.target.classList.add('active')
+            game = e.target.innerText
+            document.querySelector('h2').innerText = game
+            document.querySelector('.streams').innerHTML = ''
+                  
+            showTopStreams(game)
+          }
+      })
+    }
+
+    request.onerror = function() {
+      console.log('error')
+    }     
+
+    request.open('GET', 'https://api.twitch.tv/kraken/games/top/?limit=5', true)
+    request.setRequestHeader('Client-ID', 'tdvc2nlt9v001vzbdgzoon7av64cd2')
+    request.setRequestHeader('Accept', 'application/vnd.twitchtv.v5+json')
+    request.send()
+
+  </script>
+</body>
+</html>
