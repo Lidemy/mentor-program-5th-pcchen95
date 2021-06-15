@@ -8,11 +8,9 @@
     die("資料不齊全");
   }
   $username = $_SESSION['username'];
-  $sql_user = sprintf("SELECT nickname FROM pcchen_board_users WHERE username='%s'", $username);
-  $result = $conn->query($sql_user);
-  $row = $result->fetch_assoc();
-  $nickname = $row['nickname'];
-  $content = htmlspecialchars($_POST['content']);
+  $user = getUserFromUsername($username);
+  $nickname = $user['nickname'];
+  $content = $_POST['content'];
 
   $sql = sprintf(
     "INSERT INTO pcchen_board_comments(nickname, content) VALUES ('%s', '%s')",
