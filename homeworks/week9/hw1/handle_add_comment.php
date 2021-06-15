@@ -12,7 +12,7 @@
   $result = $conn->query($sql_user);
   $row = $result->fetch_assoc();
   $nickname = $row['nickname'];
-  $content = $_POST['content'];
+  $content = htmlspecialchars($_POST['content']);
 
   $sql = sprintf(
     "INSERT INTO pcchen_board_comments(nickname, content) VALUES ('%s', '%s')",
@@ -26,4 +26,5 @@
   } else {
     header("Location: index.php");
   }
+
 ?>

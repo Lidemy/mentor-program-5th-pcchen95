@@ -23,6 +23,8 @@
         $msg = 'Error';
         if ($code === '1') {
           $msg = '請填入完整資料';
+        } else if ($code === '2') {
+          $msg = '此帳號已被註冊';
         }
         echo "<h2 class='error'>錯誤：" . $msg . "</h2>";
       }
