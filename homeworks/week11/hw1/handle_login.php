@@ -30,12 +30,12 @@
 
   $row = $result->fetch_assoc();
 
-  if (password_verify($password, $row['password'])) {
-    $_SESSION['username'] = $username;
-    header("Location: index.php"); 
-  } else {
+  if (!password_verify($password, $row['password'])) {
     header("Location: login.php?errCode=2");
-    die($conn->error);
+    exit();
+    
   }
+  $_SESSION['username'] = $username;
+  header("Location: index.php"); 
 
 ?>

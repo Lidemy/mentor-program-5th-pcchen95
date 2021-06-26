@@ -32,7 +32,8 @@
 
   if (!$result) {
     die($conn->error);
-  } else {
-    header("Location: index.php");
   }
+  
+  header("Location: index.php");
+  
 ?>

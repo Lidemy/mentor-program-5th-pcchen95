@@ -15,12 +15,11 @@
   $stmt->bind_param("ss", $username, $content);
   $result = $stmt->execute();
 
-  /*$sql = sprintf("INSERT INTO pcchen_board_comments(username, content) VALUES ('%s', '%s')", $username, $content);
-  $result = $conn->query($sql);*/
 
   if (!$result) {
     die($conn->error);
-  } else {
-    header("Location: index.php");
   }
+  
+  header("Location: index.php");
+  
 ?>
