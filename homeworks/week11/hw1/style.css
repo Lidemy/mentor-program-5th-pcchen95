@@ -1,0 +1,398 @@
+body {
+  margin: 0;
+  background: #f7f7f7;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.warning {
+  background: #ffc4c6;
+  color: #a20606;
+  padding: 10px;
+  font-size: 14px;
+  text-align: center;
+  height: 36px;
+}
+
+main {
+  position: relative;
+  background: white;
+  max-width: 700px;
+  margin: 20px auto;
+  min-height: calc(100vh  - 140px);
+}
+
+nav {
+  height: 55px;
+  max-width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background: #a5cbf0;
+  padding: 10px;
+}
+
+h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: normal;
+}
+
+h3 span {
+  color: #07529c;
+  font-size: 20px;
+}
+
+nav .board__btn {
+  background: #c2dffb;
+}
+
+.board__buttons {
+  display: flex;
+}
+
+.board__btn {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: black;
+  padding: 8px 15px;
+  border: 1px solid #c2dffb;
+  border-radius: 5px;
+  margin-left: 5px;
+  font-size: 14px;
+}
+
+
+nav .admin-btn {
+  background: #0c7f29;
+  color: white;
+  border: 0px;
+}
+
+.error {
+  color: #a20606;
+}
+
+.board {
+  position: relative;
+  background: white;
+  width: 100%;
+  padding: 10px 30px;
+}
+
+.board__new-comment-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #c2dffb;;
+}
+
+.board__submit-btn {
+  display: inline-block;
+  text-decoration: none;
+  color: black;
+  padding: 10px 30px;
+  border: 1px solid #c2dffb;
+  border-radius: 5px;
+  background: white;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+
+.board__hr {
+  margin: 20px;
+  height: 2px;
+  background: #e8e8e8;
+}
+
+.card {
+  display: flex;
+  justify-content: space-between;
+  min-height: 70px;
+  margin-top: 40px;
+}
+
+.card__comment {
+  display: flex;
+}
+
+.card__avatar {
+  min-width: 50px;
+  width: 50px;
+  height: 50px;
+  background: #c2dffb;
+  border-radius: 50%;
+}
+
+.card__body {
+  margin-left: 10px;
+}
+
+.card__author {
+  color: #5c9edc;
+  font-weight: bold;
+}
+
+.card__time {
+  color: #a0a0a0;
+}
+
+.card__content {
+  margin-top: 8px;
+  max-width: 100%;
+  word-break: break-all;
+  white-space: pre-line;
+}
+
+.card__edit {
+  width: 150px;
+  display: flex;
+  align-items: center;
+  transition: transform 0.1s;
+}
+
+.card__edit:hover img {
+  opacity: 0.3;
+  transform: scale(1.2);
+  transition: transform 0.15s;
+}
+
+.card__edit img {
+  width: 20px;
+  height: 20px;
+  opacity: 0.1;
+  margin: 0 20px;
+  cursor: pointer;
+}
+
+.card__edit img:hover {
+  opacity: 0.7;
+  transition: transform 0.15s;
+}
+
+.board__input {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.board__input-nickname {
+  position: relative;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  background: #f2d88d;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.board__input input {
+  width: 200px;
+  border: 1px solid #c2dffb;
+  padding: 5px;
+}
+
+.board__new-name-submit-btn {
+  display: block;
+  text-decoration: none;
+  color: black;
+  padding: 5px 20px;
+  border: 1px solid #c2dffb;
+  border-radius: 5px;
+  background: white;
+  cursor: pointer;
+  margin-left: 20px;
+}
+
+.update-nickname {
+  cursor: pointer;
+}
+
+nav .cancel-update-nickname {
+  position: relative;
+  background: #f2d88d;
+  border-color: #f0c855;
+  cursor: pointer;
+}
+
+.cancel-update-nickname:after {
+  content: '';
+  position: absolute;
+  right: 28px;
+  bottom: -33px;
+  width: 0;
+  height: 0;
+  border-top: solid 20px transparent;
+  border-right: solid 15px transparent;
+  border-bottom: solid 20px #f2d88d;
+  border-left: solid 15px transparent;
+  z-index: 2;
+}
+
+main {
+  position: relative;
+}
+
+.board__update-nickname {
+  position: absolute;
+  top: 0;
+  right: 30px;
+  margin-top: 20px;
+}
+
+.hide {
+  display: none;
+}
+
+.paginator {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.paginator__count {
+  font-size: 14px;
+  color: grey;
+}
+
+.paginator__page {
+  display: flex;
+  margin-top: 10px;
+
+}
+
+.paginator__prev {
+  margin-right: 10px;
+}
+
+.paginator__next {
+  margin-left: 10px;
+}
+
+.paginator__icon {
+  text-decoration: none;
+  color: black;
+  margin: 0 5px;
+}
+
+.inactive {
+  visibility: hidden;
+}
+
+.admin {
+  max-width: 1000px;
+}
+
+.admin-board {
+  background: white;
+  width: 100%;
+  margin: 0 auto;
+  padding: 30px 30px;
+  position: relative;
+}
+
+.admin-board h1 {
+  margin: 10px 0;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed;
+}
+
+table {
+  border:  1px solid #d0d0d0;  
+
+}
+
+th {
+  border-bottom:  1px solid #d0d0d0;
+}
+
+td {
+  border-bottom:  1px dotted #d0d0d0;
+}
+
+th, td {
+  padding: 8px 10px;
+  font-size: 14px;
+}
+
+th {
+  text-align: left;
+  background: #d6d6e8;
+}
+
+th[class=table__edit] {
+  color: #aa351c;
+}
+
+.table__no {
+  width: 40px;
+  text-align: center;
+  background: #d6d6e8;
+}
+
+.table__id {
+  width: 40px;
+  text-align: center;
+  background: #d6d6e8;
+}
+
+.table__role {
+  width: 100px;
+  text-align: center;
+}
+
+.table__username {
+  width: auto;
+  word-break: break-all;
+}
+
+.table__nickname {
+  width: auto;
+  word-break: break-all;
+}
+
+.table__created-at {
+  width: 120px;
+  text-align: center;
+}
+
+.table__edit {
+  width: 130px;
+  text-align: center;
+}
+
+.permission_warning {
+  color: red;
+  font-size: 28px;
+  margin-top: 20px;
+}
+
+.board__select {
+  width: 100px;
+  border: 1px solid #c2dffb;
+  padding: 5px;
+}
+
+.user-update-btn {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.user-update-btn .board__submit-btn {
+  margin-left: 10px;
+}
+
+.cancel a {
+  text-decoration: none;
+  color: black;
+}
