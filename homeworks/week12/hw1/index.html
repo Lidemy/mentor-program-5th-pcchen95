@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>Week12 - 留言板</title>
+  <meta name ="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+  <style type="text/css">
+
+    .card  {
+      margin-top: 12px;
+    }
+
+  </style>
+
+  <script>
+    function escapeHTML(unsafe) {
+      return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function appendCommentToDOM(container, comment, isPrepend) {
+      const html = `
+        <div class="card" id="${comment.id}">
+          <div class="card-body">
+            <h5 class="card-title">${escapeHTML(comment.nickname)}</h5>
+            <p class="card-text">${escapeHTML(comment.content)}</p>
+          </div>
+        </div>
+      `
+      if (isPrepend) {
+        container.prepend($(html).hide().fadeIn('slow'))
+      } else {
+        container.append($(html).hide().fadeIn('slow'))
+      }
+    }
+
+    const baseURL = 'http://mentor-program.co/mtr04group1/pcchen/week12/api-board'
+    function loadComments(commentDOM, cursor) {
+      $.ajax({
+        url: `${baseURL}/api_comments.php?site_key=pei&limit=${limit}&cursor=${cursor}`,
+      }).done((data) => {
+        if (!data.ok) {
+          console.log('!data.ok')        
+          alert(data.message)
+          return
+        }
+        const comments = data.discussions
+        let itemsPerPage
+        if (comments.length < limit + 1) {
+          $('.read-more-btn').attr('disabled', '')
+          itemsPerPage = comments.length
+          hasNextPage = false
+        } else {
+          itemsPerPage = limit
+        }
+       
+        for (let i = 0; i < itemsPerPage; i++) {
+          appendCommentToDOM(commentDOM, comments[i])
+          lastID = comments[i].id
+        }
+      })
+    }
+
+    let lastID = '', hasNextPage = true
+    const limit = 6
+
+    $(document).ready(() => {
+      const commentDOM = $('.comments')
+      loadComments(commentDOM, lastID)
+
+      $('.add-comment-form').submit((e) => {
+        e.preventDefault()
+        const newCommentData = {
+          site_key: 'pei',
+          nickname: $('input[name=nickname]').val(),
+          content: $('textarea[name=content]').val()
+        }
+        $.ajax({
+          type: 'POST',
+          url: `${baseURL}/api_add_comment.php`,
+          data: newCommentData
+        }).done((data) => {
+          if(!data.ok) {
+            alert(data.message)
+            return
+          }
+          nickname: $('input[name=nickname]').val('')
+          content: $('textarea[name=content]').val('')
+          appendCommentToDOM(commentDOM, newCommentData, true)
+
+          if (hasNextPage) {
+            let removeID = `#${lastID}`
+            $(removeID).remove()
+            lastID++
+          }
+        })
+      })
+
+      $('.read-more-btn').click((e) => {
+        loadComments(commentDOM, lastID)
+      })
+
+
+    })
+  </script>
+</head>
+<body>
+  <nav class="navbar sticky-top navbar-light bg-light">
+    <div class="container-fluid">
+      <span class="navbar-brand mb-0 h1 mx-auto">留言板</span>
+    </div>
+  </nav>
+  <div class="container">
+    <form class="add-comment-form mt-4">
+      <div class="mb-3">
+        <label for="form-nickname" class="form-label">暱稱</label>
+        <input type="text" name="nickname" class="form-control" id="form-nickname">
+
+      </div>
+      <div class="mb-3">
+        <label for="content-textarea" class="form-label">留言內容</label>
+        <textarea name="content" class="form-control" id="content-textarea" rows="3"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">送出</button>
+    </form>
+    <div class="comments">
+    </div>
+    <div class="d-grid gap-2 mt-4 mb-4">
+      <button class="btn btn-outline-secondary read-more-btn">READ MORE</button>
+    </div>
+    
+  </div>
+  
+</body>
+</html>
