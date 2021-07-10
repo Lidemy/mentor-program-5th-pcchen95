@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>Week12 - Todo list</title>
+  <meta name ="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+  <style>
+    .completed {
+      text-decoration: line-through;
+    }
+
+    .btn-check:focus+.btn-outline-secondary, .btn-outline-secondary:focus {
+      box-shadow: 0 0 0 0; 
+    }
+
+    .list-group-item {
+      display: flex;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .form-check-input + span {
+      white-space: pre-wrap;
+    }
+
+  </style>
+
+  <script>
+    function escapeHTML(unsafe) {
+      return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    const baseURL = 'http://mentor-program.co/mtr04group1/pcchen/week12/api-todo'
+
+    function saveTodo(jsonTodos, id) {
+      const type = 'POST'
+      let url, data, redirect
+      if (!id) {
+        url = `${baseURL}/api_add_todo.php`
+        data = {
+          content: jsonTodos
+        }
+        redirect = true
+      } else {
+        url = `${baseURL}/api_update_todo.php`
+        data = {
+          id,
+          content: jsonTodos
+        }
+        redirect = false
+      }
+      $.ajax({type, url, data})
+        .done((data) => {
+          if (!data.ok) {
+            alert(data.message)
+            return
+          }
+          alert('儲存成功！')
+          if (redirect) {
+            location.replace(`${baseURL}/index.html?id=${data.id}`)
+          }
+      })
+    }
+
+    function loadTodosFromId(id) {
+      $.ajax(`${baseURL}/api_todos.php?id=${id}`)
+        .done((data) => {
+          if (!data.ok) {
+            location.replace(`${baseURL}/index.html`)
+          }
+          const todos = data.todos
+          for (todo of todos) {
+            let state = '', checked = ''
+            if (todo.state === 'completed') {
+              state = 'completed'
+              checked = 'checked'
+            }
+            $('.list-group').append(`
+              <li class="list-group-item justify-content-between ${escapeHTML(state)}">
+                <div>
+                  <input class="form-check-input me-2" type="checkbox" ${escapeHTML(checked)}>
+                  <span>${escapeHTML(todo.content)}</span>
+                </div>
+                <button type="button" class="btn-close"></button>
+              </li>
+            `)
+          }
+        })
+    }
+
+    
+    $(document).ready(() => {
+      const indexURL = new URL(location.href)
+      const params = indexURL.searchParams
+      if (params.get('id')) {
+        loadTodosFromId(params.get('id'))
+      }
+
+      $('.add-todo-form').on('keypress', (e) => {
+        if(e.which == 13) {
+          e.preventDefault()
+          let content = $('.form-control').val()
+          let hidden = ''
+          if (tag === 'completed') {
+            hidden = 'hidden'
+          }
+          let html = `
+            <li class="list-group-item justify-content-between ${escapeHTML(hidden)}">
+              <div>
+                <input class="form-check-input me-2" type="checkbox">
+                <span>${escapeHTML(content)}</span>
+              </div>
+              <button type="button" class="btn-close"></button>
+            </li>
+          `
+          $('.list-group').prepend(html)
+          $('.form-control').val('')
+        }
+      })
+
+      $('.list-group').on('click', '.form-check-input', (e) => {
+        $(e.target).parent().parent().toggleClass('completed')
+        if (tag !== 'all') {
+          $(e.target).parent().parent().addClass('hidden')
+        }
+      })
+
+      $('.list-group').on('click', '.btn-close', (e) => {
+        $(e.target).parent().remove()
+      })
+
+      $('.clear-all-btn').click (() => {
+        $('.list-group').empty()
+      })
+
+      let tag = "all"
+      $('.btn-group').on('click', '.btn', (e) => {
+        $('.btn-outline-secondary').removeClass('btn-outline-secondary')
+        $(e.target).addClass('btn-outline-secondary')
+        $('.list-group').find('.hidden').removeClass('hidden')
+        tag = "all"
+        if ($(e.target).text() === 'Active') {
+          $('.list-group').find('.completed').addClass('hidden')
+          tag = 'active'
+        }
+
+        if ($(e.target).text() === 'Completed') {          
+          $('.list-group-item').not('.completed').addClass('hidden')
+          tag = 'completed'
+        }
+      })
+
+      $('.save').click(() => {
+        let todos = []
+        $('.list-group-item').each((index, element) => {
+          const todo = new Object()
+          todo.content = $(element).find('div span').text()
+          if ($(element).hasClass('completed')) {
+            todo.state = 'completed'
+          } else {
+            todo.state = 'active'
+          }
+          todos.push(todo)
+        })
+        const jsonTodos = JSON.stringify(todos)
+        saveTodo(jsonTodos, params.get('id'))               
+      })
+    })
+
+    
+  </script>
+</head>
+<body>
+  <div class="container-sm">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between">
+        <span>Todos</span>
+        <button type="button" class="btn btn-success btn-sm save">Save</button>
+      </div>
+      <div class="card-body">
+         <form class="add-todo-form">
+          <div class="mb-3">
+            <input type="text" class="form-control" id="input-todo" placeholder="What needs to be done?">
+          </div>
+        </form>
+        <div class="btn-group btn-group-sm mb-4 d-flex justify-content-between" role="group">
+          <div>
+            <button type="button" class="btn btn-outline-secondary">All</button>
+            <button type="button" class="btn">Active</button>
+            <button type="button" class="btn">Completed</button>
+          </div>
+          <div>
+            <button type="button" class="btn btn-warning clear-all-btn">Clear All</button>
+          </div>
+        </div>
+        <ul class="list-group list-group-flush">
+        </ul>
+      </div>
+    </div>    
+  </div>
+</body>
+</html>
