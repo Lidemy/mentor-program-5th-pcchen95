@@ -7,12 +7,12 @@ export const escapeHTML = (unsafe) =>
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;')
 
-export const appendCommentToDOM = (container, comment, isPrepend) => {
+export const appendCommentToDOM = (container, { id, nickname, content }, isPrepend) => {
   const html = `
-    <div class="card" id="${comment.id}">
+    <div class="card" id="${id}">
       <div class="card-body">
-        <h5 class="card-title">${escapeHTML(comment.nickname)}</h5>
-        <p class="card-text">${escapeHTML(comment.content)}</p>
+        <h5 class="card-title">${escapeHTML(nickname)}</h5>
+        <p class="card-text">${escapeHTML(content)}</p>
       </div>
     </div>
   `
