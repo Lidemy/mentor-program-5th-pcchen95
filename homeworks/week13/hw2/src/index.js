@@ -1,17 +1,17 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-vars, import/prefer-default-export */
 import $ from 'jquery'
 import { getComments, addComments } from './api'
 import { appendCommentToDOM, appendStyle } from './utils'
 import { cssTemplate, getForm } from './template'
 
-const init = (options) => {
+export const init = (options) => {
   let siteKey = ''
   let apiUrl = ''
   let containerElement = null
   let commentDOM = null
   let hasNextPage = true
   let lastID = ''
-  const limit = 6
+  const limit = 5
 
   siteKey = options.siteKey
   apiUrl = options.apiUrl
@@ -23,7 +23,7 @@ const init = (options) => {
   const btnSelector = `.${btnClassName}`
 
   containerElement = $(options.containerSelector)
-  containerElement.append(getForm(formClassName, commentsClassName, btnClassName))
+  containerElement.append(getForm(siteKey))
   appendStyle(cssTemplate)
 
   commentDOM = $(commentsSelector)
@@ -34,18 +34,16 @@ const init = (options) => {
         alert(data.message)
         return
       }
-      const comments = data.discussions
-      let itemsPerPage
-      if (comments.length < limit + 1) {
-        $('.read-more-btn').attr('disabled', '')
-        itemsPerPage = comments.length
-        hasNextPage = false
-      } else {
-        itemsPerPage = limit
-      }
+
+      const { discussions } = data
+      lastID = discussions[discussions.length - 2].id
+      const itemsPerPage = discussions.length === limit + 1 ? limit : discussions.length
       for (let i = 0; i < itemsPerPage; i++) {
-        appendCommentToDOM(commentDOM, comments[i])
-        lastID = comments[i].id
+        appendCommentToDOM(commentDOM, discussions[i])
+      }
+      if (discussions.length < limit + 1) {
+        $(btnSelector).attr('disabled', '')
+        hasNextPage = false
       }
     })
   }
@@ -82,4 +80,3 @@ const init = (options) => {
     loadComments(apiUrl, commentDOM, lastID, limit, siteKey)
   })
 }
-export default 'init'
