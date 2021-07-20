@@ -21,6 +21,10 @@
   );
   $result = $conn->query($sql);
   if (!$result) {
+    $code = $conn->errno;
+    if ($code === 1062){
+      header('Location: register.php?errCode=2');
+    }
     die($conn->error);
   }
 

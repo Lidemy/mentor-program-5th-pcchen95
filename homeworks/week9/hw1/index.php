@@ -61,7 +61,7 @@
               <span class="card__author"><?php echo $row['nickname']; ?></span>
               <span class="card__time"><?php echo $row['created_at']; ?></span> 
             </div>
-            <p class="card__content"><?php echo $row['content']; ?></p>
+            <p class="card__content"><?php echo htmlspecialchars($row['content']); ?></p>
           </div>
         </div>
       <?php } ?>
