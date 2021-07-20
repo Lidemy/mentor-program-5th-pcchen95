@@ -43,7 +43,7 @@
     }
 
     const baseURL = 'http://mentor-program.co/mtr04group1/pcchen/week12/api-todo'
-
+    
     function saveTodo(jsonTodos, id) {
       const type = 'POST'
       let url, data, redirect
@@ -80,17 +80,13 @@
           if (!data.ok) {
             location.replace(`${baseURL}/index.html`)
           }
-          const todos = data.todos
+          const todos = data.todos   
           for (todo of todos) {
-            let state = '', checked = ''
-            if (todo.state === 'completed') {
-              state = 'completed'
-              checked = 'checked'
-            }
+            const { state } = todo
             $('.list-group').append(`
-              <li class="list-group-item justify-content-between ${escapeHTML(state)}">
+              <li class="list-group-item justify-content-between ${escapeHTML(state === 'completed' ? 'completed' : '')}">
                 <div>
-                  <input class="form-check-input me-2" type="checkbox" ${escapeHTML(checked)}>
+                  <input class="form-check-input me-2" type="checkbox" ${escapeHTML(state === 'completed' ? 'checked' : '')}>
                   <span>${escapeHTML(todo.content)}</span>
                 </div>
                 <button type="button" class="btn-close"></button>
@@ -99,7 +95,13 @@
           }
         })
     }
-
+    let tag = 'all'
+    function handleStateTag(state) {    
+      if (!state) {
+        return tag
+      }
+      tag = state
+    }
     
     $(document).ready(() => {
       const indexURL = new URL(location.href)
@@ -113,7 +115,7 @@
           e.preventDefault()
           let content = $('.form-control').val()
           let hidden = ''
-          if (tag === 'completed') {
+          if (handleStateTag() === 'completed') {
             hidden = 'hidden'
           }
           let html = `
@@ -132,7 +134,7 @@
 
       $('.list-group').on('click', '.form-check-input', (e) => {
         $(e.target).parent().parent().toggleClass('completed')
-        if (tag !== 'all') {
+        if (handleStateTag() !== 'all') {
           $(e.target).parent().parent().addClass('hidden')
         }
       })
@@ -145,34 +147,29 @@
         $('.list-group').empty()
       })
 
-      let tag = "all"
+      
       $('.btn-group').on('click', '.btn', (e) => {
+        const target = $(e.target)
+        const filter = target.attr('data-filter')
+        handleStateTag(filter)
         $('.btn-outline-secondary').removeClass('btn-outline-secondary')
-        $(e.target).addClass('btn-outline-secondary')
+        target.addClass('btn-outline-secondary')
         $('.list-group').find('.hidden').removeClass('hidden')
-        tag = "all"
-        if ($(e.target).text() === 'Active') {
+        if (filter === 'active') {
           $('.list-group').find('.completed').addClass('hidden')
-          tag = 'active'
         }
-
-        if ($(e.target).text() === 'Completed') {          
+        if (filter === 'completed') {          
           $('.list-group-item').not('.completed').addClass('hidden')
-          tag = 'completed'
         }
       })
 
       $('.save').click(() => {
         let todos = []
         $('.list-group-item').each((index, element) => {
-          const todo = new Object()
-          todo.content = $(element).find('div span').text()
-          if ($(element).hasClass('completed')) {
-            todo.state = 'completed'
-          } else {
-            todo.state = 'active'
-          }
-          todos.push(todo)
+          todos.push({
+            content: $(element).find('div span').text(),
+            state: $(element).hasClass('completed') ? 'completed' : 'active'
+          })
         })
         const jsonTodos = JSON.stringify(todos)
         saveTodo(jsonTodos, params.get('id'))               
@@ -197,9 +194,9 @@
         </form>
         <div class="btn-group btn-group-sm mb-4 d-flex justify-content-between" role="group">
           <div>
-            <button type="button" class="btn btn-outline-secondary">All</button>
-            <button type="button" class="btn">Active</button>
-            <button type="button" class="btn">Completed</button>
+            <button type="button" class="btn btn-outline-secondary" data-filter='all'>All</button>
+            <button type="button" class="btn" data-filter='active'>Active</button>
+            <button type="button" class="btn" data-filter='completed'>Completed</button>
           </div>
           <div>
             <button type="button" class="btn btn-warning clear-all-btn">Clear All</button>
