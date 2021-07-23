@@ -10,19 +10,19 @@
     $user = getUserFromUsername($username);
   }
 
-  if ($user['role'] !== "admin") {
+  if ($user['role_id'] !== 1) {
     header("Location: no_permission.php");
     exit();
   }
 
-  if (!isUpdateValid($_POST['id'], $_POST['role'], $_POST['updatedRole'])) {
+  if (!isUpdateValid($_POST['id'], $_POST['roleId'], $_POST['updatedRoleId'])) {
     die("Error: 不可移除所有管理員身份");
   }
 
-  for($i = 0; $i < count($_POST['updatedRole']); $i++) {
-    if ($_POST['updatedRole'][$i] !== "none") {
-      $stmt = $conn->prepare("UPDATE pcchen_board_users SET role = ? WHERE id = ?");
-      $stmt->bind_param("si",$_POST['updatedRole'][$i], $_POST['id'][$i]);
+  for($i = 0; $i < count($_POST['updatedRoleId']); $i++) {
+    if ($_POST['updatedRoleId'][$i] !== "none") {
+      $stmt = $conn->prepare("UPDATE pcchen_board_users SET role_id = ? WHERE id = ?");
+      $stmt->bind_param("si",$_POST['updatedRoleId'][$i], $_POST['id'][$i]);
       $result = $stmt->execute();
       if (!$result) {
         die($conn->error);
@@ -32,10 +32,10 @@
   header("Location: admin.php");
 
   // 判斷是否移除了所有管理員權限
-  function isUpdateValid($arrayId, $arrayRole, $arrayUpdatedRole) {
+  function isUpdateValid($arrayId, $arrayRoleId, $arrayUpdatedRoleId) {
     global $conn;
     
-    $stmt = $conn->prepare("SELECT id FROM pcchen_board_users WHERE role = 'admin'");
+    $stmt = $conn->prepare("SELECT id FROM pcchen_board_users WHERE role_id = 1");
     $result = $stmt->execute();
     $result = $stmt->get_result();
 
@@ -46,8 +46,9 @@
 
     $countAdminUpdated = 0;
     for ($i = 0; $i < count($arrayId); $i++) {
+
       // 判斷 POST 的資料中，原身份為 admin 且有被更動的 ID，是否包含在資料庫的 admin 身份
-      if ($arrayRole[$i] === 'admin' && $arrayUpdatedRole[$i] !== 'none') {
+      if ($arrayRoleId[$i] === '1' && $arrayUpdatedRoleId[$i] !== 'none') {
         if (in_array($arrayId[$i], $adminDB)) {
           $countAdminUpdated++; // 是 admin 且被變更身份的數量
         }

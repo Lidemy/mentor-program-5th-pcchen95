@@ -191,7 +191,8 @@ nav .admin-btn {
   border-radius: 5px;
 }
 
-.board__input input {
+.board__input input[type=text],
+.board__input input[type=password] {
   width: 200px;
   border: 1px solid #c2dffb;
   padding: 5px;
@@ -302,15 +303,20 @@ main {
   margin: 10px 0;
 }
 
+.user-role {
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
 table {
   border-collapse: collapse;
   width: 100%;
   table-layout: fixed;
+  border:  1px solid #d0d0d0;  
 }
 
-table {
-  border:  1px solid #d0d0d0;  
-
+.auth__table {
+  width: 250px;
 }
 
 th {
@@ -352,6 +358,11 @@ th[class=table__edit] {
   text-align: center;
 }
 
+.table__action {
+  width: 120px;
+  text-align: center;
+}
+
 .table__username {
   width: auto;
   word-break: break-all;
@@ -370,6 +381,12 @@ th[class=table__edit] {
 .table__edit {
   width: 130px;
   text-align: center;
+}
+
+.table__edit a {
+  text-decoration: none;
+  color: #040490;
+  margin: 0 5px;
 }
 
 .permission_warning {
@@ -396,4 +413,37 @@ th[class=table__edit] {
 .cancel a {
   text-decoration: none;
   color: black;
+}
+
+.admin-board__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.admin__submit-btn {
+  display: inline-block;
+  text-decoration: none;
+  color: black;
+  padding: 10px 20px;
+  border: 1px solid #c2dffb;
+  border-radius: 5px;
+  background: white;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.board__input-checkbox {
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.board__checkbox {
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
+.board__checkbox  span {
+  margin-left: 10px;
 }

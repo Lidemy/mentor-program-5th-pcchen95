@@ -3,7 +3,9 @@
 
   function getUserFromUsername($username) {    
     global $conn;
-    $stmt = $conn->prepare("SELECT * FROM pcchen_board_users WHERE username = ?");
+    $stmt = $conn->prepare(
+      "SELECT * FROM pcchen_board_users AS U LEFT JOIN pcchen_board_roles AS R ON U.role_id = R.id WHERE username = ?"
+    );
     $stmt->bind_param("s", $username);
     $result = $stmt->execute();
     $result = $stmt->get_result();

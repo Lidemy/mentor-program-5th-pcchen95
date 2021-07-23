@@ -10,7 +10,7 @@
     $user = getUserFromUsername($username);
   }
 
-  if ($user['role'] !== "admin") {
+  if ($user['role_id'] !== 1) {
     header("Location: no_permission.php");
     exit();
   } 
@@ -22,7 +22,30 @@
   $item_per_page = 10;
   $offset = ($page - 1) * $item_per_page;
 
-  $stmt = $conn->prepare("SELECT *, date_format(created_at, '%Y-%m-%e') AS created_date FROM pcchen_board_users ORDER BY role ASC, id DESC LIMIT ? OFFSET ?");
+  $stmt = $conn->prepare("SELECT id, role FROM pcchen_board_roles WHERE is_deleted IS NULL");
+  $result = $stmt->execute();
+  if(!$result) {
+    die("Error: " . $conn->error);
+  }
+
+  $result = $stmt->get_result();
+
+  $roles = array();
+  while ($row = $result->fetch_assoc()) {
+    array_push($roles, array(
+      "id" => $row['id'],
+      "role" => $row['role']
+    ));
+  }
+
+  $stmt = $conn->prepare(
+    "SELECT U.id, U.role_id, U.username, U.nickname, R.role, " .
+    "date_format(U.created_at, '%Y-%m-%e') AS created_date " .
+    "FROM pcchen_board_users AS U " .
+    "LEFT JOIN pcchen_board_roles AS R ON U.role_id = R.id " .
+    "ORDER BY U.role_id ASC, U.id DESC " .
+    "LIMIT ? OFFSET ?"
+  );
   $stmt->bind_param("ii", $item_per_page, $offset);
   $result = $stmt->execute();
   
@@ -31,7 +54,6 @@
   }
 
   $result = $stmt->get_result();
- 
 ?>
 <!DOCTYPE html>
 
@@ -54,6 +76,7 @@
     <nav>
       <h3>你好, <span class="nickname"><?php echo escapeHTML($user['nickname']); ?></span>！</h3>
       <a href="index.php" class="board__btn">回到留言板</a>
+      <a href="admin_authority.php" class="board__btn">權限管理</a>
       <a href="handle_logout.php" class="board__btn">登出</a>    
     </nav>
     <div class="admin-board">
@@ -87,35 +110,28 @@
               <th class="table__role">身份</th>
               <th class="table__edit">編輯權限</th>
             </tr>
-            <?php while($row = $result->fetch_assoc()) {?>
-             <tr>
+            <?php while($row = $result->fetch_assoc()) { ?>
+
+            <tr>
               <td class="table__id"><?php echo escapeHTML($row['id']); ?></td> 
               <input type="hidden" name="id[]" value="<?php echo escapeHTML($row['id']); ?>">       
               <td class="table__username"><?php echo escapeHTML($row['username']); ?></td>
               <td class="table__nickname"><?php echo escapeHTML($row['nickname']); ?></td>
               <td class="table__created-at"><?php echo escapeHTML($row['created_date']); ?></td>
-              <td class="table__role"><?php 
-                if ($row['role'] === "admin") {
-                  echo "管理員";
-                } else if ($row['role'] === "normal") {
-                  echo "一般使用者";
-                } else if ($row['role'] === "suspended") {
-                  echo "停權";
-                }
-              ?></td>
-              <input type="hidden" name="role[]" value="<?php echo escapeHTML($row['role']); ?>">
+              <td class="table__role"><?php echo escapeHTML($row['role']); ?></td>
+              <input type="hidden" name="roleId[]" value="<?php echo escapeHTML($row['role_id']); ?>">
               <td class="table__edit">
-                <select name="updatedRole[]" class="board__select">
+                <select name="updatedRoleId[]" class="board__select">
                   <option value="none" selected>---</option>
-                  <?php if ($row['role'] !== "admin") { ?>
-                    <option value="admin">管理員</option>
-                  <?php } ?>
-                  <?php if ($row['role'] !== "normal") { ?>
-                  <option value="normal">一般使用者</option>
-                  <?php } ?>
-                  <?php if ($row['role'] !== "suspended") { ?>
-                  <option value="suspended">停權</option>
-                   <?php } ?>
+                  <?php
+                    foreach ($roles as $role) {
+                      if ($row['role_id'] !== $role['id']) {
+                        $id = $role['id'];
+                        $name = $role['role'];
+                        echo "<option value='$id'>$name</option>";
+                      }
+                    }
+                  ?>
                 </select>
               </td>
             </tr>
