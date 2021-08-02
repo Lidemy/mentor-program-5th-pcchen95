@@ -27,12 +27,7 @@ console.log(5)
   main()
   ```
   
-- WebAPIs
-  
-  ```
-  ```
-  
-- Task queue
+- Callback queue
   
   ```
   ```
@@ -45,7 +40,7 @@ console.log(5)
   setTimeout(() => { console.log(2) }, 0)
   main()
   ```
-  放到 WebAPIs 後拿掉
+  setTimeout 是一種 WebAPI，同時是非同步函式。交給瀏覽器等待 0 秒後把 callback function 放到 callback queue 裡等候。
   
   &darr;
   
@@ -53,25 +48,12 @@ console.log(5)
   main()
   ```
   
-- WebAPIs
+- Callback queue
+  
+  把 setTimeout 裡的 callback function 放進來。Event loop 偵測 Stack 中還有東西，還不能把 callback queue 裡的 function 放過去。
   
   ```
-  timer, console.log(2)
-  ```
-  
-  
-  等待 0 秒後清空
-  &darr;
-  
-  ```
-  ```
-  
-- Task queue
-  
-  把 setTimeout 裡的 callback function 放進來。Event loop 偵測 Stack 中還有東西，還不能把 Task queue 裡的指令放過去。
-  
-  ```
-  console.log(2)
+  () => { console.log(2) }
   ```
 
 ### 3. `console.log(3)`
@@ -90,17 +72,12 @@ console.log(5)
   main()
   ```
   
-- WebAPIs
+- Callback queue
+  
+  Event loop 偵測 Stack 中還有東西，還不能把 callback queue 裡的 function 放過去。
   
   ```
-  ```
-  
-- Task queue
-  
-  由於 Stack 中還有東西，還不能把 Task queue 裡的指令放過去。
-  
-  ```
-  console.log(2)
+  () => { console.log(2) }
   ```
  
 ### 4. `setTimeout(() => {  console.log(4) }, 0)`
@@ -108,38 +85,26 @@ console.log(5)
 - Stack:
   
   ```
-  setTimeout(() => {  console.log(4) }, 0)
+  setTimeout(() => { console.log(4) }, 0)
   main()
   ```
   
-  放到 WebAPIs 後拿掉
+  setTImeout 是一種 WebAPI，同時是非同步函式。交給瀏覽器等待 0 秒後把 callback function 放到 callback queue 裡等候。
+
   
   &darr;
   
   ```
   main()
   ```
+    
+- Callback queue
   
-- WebAPIs
-  
-  ```
-  timer, console.log(4)
-  ```
-  
-  等待 0 秒後清空
-   
-  &darr;
+  把 setTimeout 裡的 callback function 放進來，並在後面排隊。Event loop 偵測 Stack 中還有東西，還不能把 callback queue 裡的 function 放過去。
   
   ```
-  ```
-  
-- Task queue
-  
-  把 setTimeout 裡的 callback function 放進來，並在後面排隊。Event loop 偵測 Stack 中還有東西，還不能把 Task queue 裡的指令放過去。
-  
-  ```
-  console.log(2)
-  console.log(4)
+  () => { console.log(2) }
+  () => { console.log(4) }
   ```
  
 ### 5. `console.log(5)`
@@ -167,27 +132,31 @@ console.log(5)
   ```
   ```
   
-- WebAPIs
-  
-  ```
-  ```
-  
 - Task queue
   
-  等到 Stack 全部清空，Event loop 偵測 stack 裡確定沒有東西了，呼喚 task queue 陸續把 task 放過去
+  等到 Stack 全部清空，Event loop 偵測 stack 裡沒有東西了，呼喚 callback queue 陸續把 callback function 放過去
   
   ```
-  console.log(2)
-  console.log(4)
+  () => { console.log(2) }
+  () => { console.log(4) }
   ```
 
-### 6. 把 Task queue 裡的指令陸續放到 Stack 中 (1)
+### 6. 把 Callback queue 裡的 function 陸續放到 Stack 中 (1)
 - Stack:
   
-  把在 queue 最前面的抓過來執行
+  把在 queue 最前面的 function 放到 stack 裡
+  
+  ```
+  () => { console.log(2) }
+  ```
+  
+  &darr;
+  
+  function 內有指令需要處理，放到 stack 最上面
   
   ```
   console.log(2)
+  () => { }
   ```
   
   執行完後拿掉
@@ -195,26 +164,39 @@ console.log(5)
   &darr;
   
   ```
+  () => { }
   ```
+  function 內沒有東西要執行了，再把 function 拿掉
   
-- WebAPIs
-  
-  ```
-  ```
-  
-- Task queue
-  
-  等到 Stack 全部清空，Event loop 偵測 stack 裡確定沒有東西了，呼喚 task queue 把 task 放過去
+  &darr;
   
   ```
-  console.log(4)
   ```
   
-### 7. 把 Task queue 裡的指令陸續放到 Stack 中 (2)
+- Callback queue
+  
+  等到 Stack 全部清空，Event loop 偵測 stack 裡沒有東西了，呼喚 callback queue 陸續把 callback function 放過去
+  
+  ```
+  () => { console.log(4) }
+  ```
+  
+### 7. 把 Callback queue 裡的指令陸續放到 Stack 中 (2)
 - Stack:
   
+  把在 queue 最前面的 function 放到 stack 裡
+  
+  ```
+  () => { console.log(4) }
+  ```
+  
+  &darr;
+  
+  function 內有指令需要處理，放到 stack 最上面
+  
   ```
   console.log(4)
+  () => { }
   ```
   
   執行完後拿掉
@@ -222,14 +204,16 @@ console.log(5)
   &darr;
   
   ```
+  () => { }
   ```
+  function 內沒有東西要執行了，再把 function 拿掉
   
-- WebAPIs
-
-  ```
-  ```
+  &darr;
   
-- Task queue
+  ```
+  ```
+    
+- Callback queue
 
   ```
   ```
