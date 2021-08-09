@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <%- include('template/head') %>
+</head>
+<body>
+  <%- include('template/navbar') %>
+  <div class="banner">
+    <h1>存放技術之地 - 後台</h1>
+    <h3>Welcome to my blog</h3>
+  </div>
+  <main class="main__admin">
+    <div class="articles">
+    <%  
+      function formatDateTime (date) {  
+        const y = date.getFullYear();  
+        let m = date.getMonth() + 1;  
+        m = m < 10 ? ('0' + m) : m;  
+        let d = date.getDate();  
+        d = d < 10 ? ('0' + d) : d;  
+        const h = date.getHours();  
+        let minute = date.getMinutes();  
+        minute = minute < 10 ? ('0' + minute) : minute;  
+        return y + '-' + m + '-' + d + ' ' + h + ':' + minute;  
+      }
+    %>  
+      <% articles.forEach((article) => { %>
+      <div class="admin__article">
+        <a class="admin__article_title" href="/blog_page/<%= article.id %>"><%= article.title %></a>
+        <div class="admin__article_time">
+          <span><%= formatDateTime(article.createdAt) %></span>
+          <a href="/update_article/<%= article.id %>" class="article__edit">編輯</a>
+          <a href="/delete_article/<%= article.id %>" class="article__edit">刪除</a>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+  </main>
+  <%- include('template/footer') %>
+</body>
+</html>

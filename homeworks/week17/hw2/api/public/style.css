@@ -1,0 +1,168 @@
+* {
+  font-family: 'Questrial', 微軟正黑體;
+  box-sizing: border-box;
+}
+
+.navbar {
+  box-shadow: -1.4px -1.4px 6px 0 #97a2a0;
+  height: auto;
+}
+
+.navbar .wrapper {
+  display: flex;
+  height: 84px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 80px 0px 80px;
+}
+
+.wrapper {
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 0px 12px;
+}
+
+.navbar__site-name {
+  color: #489846;
+  font-size: 36px;
+}
+
+.main-area {
+  height: 767px;
+  padding-top: 55px;
+  padding-bottom: 152px;
+  position: relative;
+  background: url("games-bn.png") center/cover no-repeat;
+}
+
+.event {
+  margin: 0 auto;
+  width: 800px;
+  height: auto;
+  background: white;
+  border-radius: 16px;
+  padding: 25px 20px;
+}
+
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed;
+  border:  1px solid #d0d0d0; 
+}
+
+th {
+  border-bottom:  1px solid #d0d0d0;
+}
+
+td {
+  border-bottom:  1px dotted #d0d0d0;
+  height: 80px;
+}
+
+th, td {
+  padding: 8px;
+  font-size: 14px;
+  overflow-wrap: break-word;
+  
+}
+
+th {
+  text-align: center;
+  background: #e8e4d6;
+}
+
+.table_no {
+  text-align: center;
+  width: 20px;
+}
+
+.table_prize {
+  text-align: center;
+  width: 100px;
+}
+
+.table_content {
+  width: auto;
+}
+
+.table_prob {
+  text-align: center;
+  width: 70px;
+}
+
+.table_img {
+  width: 180px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.table_btn {
+  width: 70px;
+}
+
+input {
+  width: 100%;
+}
+
+.footer__top {
+  display: flex;
+  justify-content: space-between;
+  background: #e8efee;
+  padding: 40px 96px;
+  color: #484848;
+  line-height: 2em;
+}
+
+.footer__top-site {
+  text-align: right;
+}
+
+.footer__top-site div:first-child {
+  color: #489846;
+  font-size: 36px;
+}
+
+.footer__top-site div:nth-child(2) {
+  font-size: 14px;
+}
+
+.footer__bottom {
+  background: #35564b;
+  text-align: center;
+  font-size: 16px;
+  color: white;
+  padding: 15px 12px;
+}
+
+@media(max-width: 768px) {
+  .navbar__site-name {
+    margin-top: 10px;
+  }
+
+  .event {
+    width: 100%;
+    border-radius: 0px;
+  }
+
+  .footer__top {
+    text-align: center;
+    flex-direction: column-reverse;
+    padding: 16px 16px;
+  }
+
+  .footer__top-info {
+    margin-top: 16px;
+  }
+
+  .footer__top-site {
+    margin-top: 16px;
+    text-align: center;
+  }
+
+  .footer__bottom {
+    
+  }
+}

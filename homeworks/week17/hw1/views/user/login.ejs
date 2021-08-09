@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <%- include('../template/head') %>
+</head>
+<body>
+  <section class="login">
+    <h2 class="login__title">Login</h2>
+    <% if (errMessage && errMessage.length > 0) { %>
+      <div class="alert alert-danger" role="alert">
+        <%= errMessage %>
+      </div>
+    <% } %>
+   
+    <form class="login__input-form" method="POST" action="/login">
+      <div class="login__field">
+        <div class="login__field-name">USERNAME</div>
+        <input class="login__input" type="text" name="username">
+      </div>
+      <div class="login__field">
+        <div class="login__field-name">PASSWORD</div>
+        <input class="login__input" type="password" name="password">
+      </div>
+      <input class="input__submit-btn" type="submit" value="Log in">
+    </form>
+  </section>
+</body>
+</html>

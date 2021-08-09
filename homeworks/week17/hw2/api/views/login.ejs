@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <%- include('template/head') %>
+  <title>抽獎後台管理 - 登入</title>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="wrapper">
+      <div class="navbar__site-name">
+        抽獎後台管理 - 登入
+      </div>
+      <ul class="navbar__button">
+      </ul>
+    </div>
+  </nav>
+  <div class="main-area">
+    <section class="event">
+    <% if (errMessage && errMessage.length > 0) { %>
+    <div class="alert alert-danger" role="alert">
+      <%= errMessage %>
+    </div>
+    <% } %>
+    <form method="POST" action="/login">
+      <div class="mb-3">
+        <label class="form-label" >帳號</label>
+        <input type="text" class="form-control" name="username">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">密碼</label>
+        <input type="password" name="password" class="form-control"">
+      </div>
+      <button type="submit" class="btn btn-primary">送出</button>
+    </form>
+  </section>
+  </div>
+  <footer>
+    <%- include('template/footer') %>
+  </footer>
+</body>
+</html>

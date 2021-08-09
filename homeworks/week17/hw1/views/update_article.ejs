@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <%- include('template/head') %>
+  <script src="//cdn.ckeditor.com/4.16.1/standard/ckeditor.js">
+  </script>
+  <script>
+  function submitArticle(){
+     article.submit();
+    }
+  </script>
+
+</head>
+<body>
+  <%- include('template/navbar') %>
+  <div class="banner">
+    <h1>存放技術之地</h1>
+    <h3>Welcome to my blog</h3>
+  </div>
+  <main>
+    <div class="articles">  
+      <form class="add-form" name="article" method="POST" action="/update_article/<%= article.id %>">
+        <div class="add-form__instruction">
+          <p>發表文章：</p>
+          <% if (errMessage && errMessage.length > 0) { %>
+            <div class="alert alert-danger" role="alert">
+              <%= errMessage %>
+            </div>
+          <% } %>
+        </div>
+        <input class="add-form__title" type="text" name="title" placeholder="請輸入文章標題..." value="<%= article.title %>">
+        <select class="add-form__category">
+          <option>請輸入文章分類...</option>
+        </select>
+        <textarea class="add-form__content" name="content" rows="12"><%= article.content %></textarea>
+        <script>
+          CKEDITOR.replace( 'content', {
+            resize_maxWidth: 838,
+          })
+        </script>
+        <div class="add-form__submit">
+          <input class="add-form__submit-btn" type="button" onclick="submitArticle()" value="送出文章">
+          <input class="add-form__submit-btn" type="button" onclick="window.history.back()" value="取消">
+        </div>
+      </form>
+    </div>
+  </main>
+  <%- include('template/footer') %>
+</body>
+</html>
