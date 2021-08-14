@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+   <%- include('template/head') %>
+</head>
+<body>
+  <%- include('template/navbar') %>
+  <div class="banner">
+    <h1>存放技術之地</h1>
+    <h3>Welcome to my blog</h3>
+  </div>
+  <main>
+    <div class="page-name">文章列表</div>
+    <div class="articles">    
+      <%  
+        function formatDateTime (date) {  
+          const y = date.getFullYear();  
+          let m = date.getMonth() + 1;  
+          m = m < 10 ? ('0' + m) : m;  
+          let d = date.getDate();  
+          d = d < 10 ? ('0' + d) : d;  
+          const h = date.getHours();  
+          let minute = date.getMinutes();  
+          minute = minute < 10 ? ('0' + minute) : minute;  
+          return y + '-' + m + '-' + d + ' ' + h + ':' + minute;  
+        }
+      %>
+      <% articles.forEach((article) => { %>
+      <div class="article">
+        <div class="article__title">
+          <p><%= article.title %></p>
+          <% if (username) { %>
+            <a href="/update_article/<%= article.id %>" class="article__edit">編輯</a>
+          <% } %>
+        </div>
+        <div class="article__info">
+          <div class="article__time">
+            <img src="/images/time.png">
+            <span><%= formatDateTime(article.createdAt) %></span>
+          </div>
+          <div class="article__category">
+            <img src="/images/folder.png">
+            <span>歷史公告</span>
+          </div>
+        </div>
+        <div class="article__preview show-less">
+          <p><%- article.content %></p>
+        </div>
+        <a class="article__read-more-btn" href="/blog_page/<%= article.id %>">READ MORE</a>
+      </div>
+      <% }) %>
+    </div>
+    </div>
+    <div class="page-name"></div>
+    
+  </main>
+  <%- include('template/footer') %>
+</body>
+</html>

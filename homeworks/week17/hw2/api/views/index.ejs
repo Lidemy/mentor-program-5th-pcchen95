@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <%- include('template/head') %>
+  <title>抽獎後台管理</title>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="wrapper">
+      <div class="navbar__site-name">
+        抽獎後台管理
+      </div>
+      <ul class="navbar__button">
+      </ul>
+    </div>
+  </nav>
+  <div class="main-area">
+
+    <section class="event">
+    <% if (totalProb !== 1) { %>
+    <div class="alert alert-danger" role="alert">
+      <%= '機率總和不為 1！' %>
+    </div>
+    <% } %>
+    <div class="mb-4 text-end">
+      <a href="/add" class="btn btn-success" role="button">新增</a>
+      <a href="/logout" class="btn btn-secondary " role="button">登出</a>
+    </div>
+    <table>
+      <colgroup span="4"></colgroup>
+      <tr>
+        <th class="table_no">#</th>
+        <th class="table_prize">名稱</th>
+        <th class="table_content">說明</th>
+        <th class="table_prob">機率</th>
+        <th class="table_img">圖片連結</th>
+        <th class="table_btn"></th>
+        <th class="table_btn"></th>
+      </tr>
+      <% prizes.forEach((prize) => { %>
+      <tr>     
+        <td class="table_no"><%= prize.id %></td>         
+        <td class="table_prize"><%= prize.prize %></td>
+        <td class="table_contetn"><%= prize.content %></td>
+        <td class="table_prob"><%= prize.probability %></td>
+        <td class="table_img"><a href="<%= prize.imgUrl %>"><%= prize.imgUrl %></a></td>
+        <td class="table_btn">
+          <a href="/update/<%= prize.id %>" class="btn btn-primary btn-sm" role="button">編輯</a>
+        </td>
+        <td class="table_btn">
+          <a href="/delete/<%= prize.id %>" class="btn btn-primary btn-sm" role="button">刪除</a>
+        </td>
+      </tr>
+        <% }) %>  
+    </table>
+    
+  </section>
+  </div>
+  <footer>
+    <%- include('template/footer') %>
+  </footer>
+</body>
+</html>

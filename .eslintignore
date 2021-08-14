@@ -1,2 +1,4 @@
 examples/
 *.min.js
+models/
+migrations/
