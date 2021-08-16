@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <%- include('../../template/header') %>
+  <title>後台 - Just A Bite!</title>
+  <link rel="stylesheet" href="/css/style-admin.css"> 
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="/js/handleImg.js"></script>
+</head>
+
+<body>
+  <%- include('../../template/navbar_admin') %>
+
+  <div class="admin__main-area">
+    <section class="admin__section">
+      <nav style="--bs-breadcrumb-divider: '>';">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/admin">後台首頁</a></li>
+          <li class="breadcrumb-item"><a href="/prize_management">獎項管理</a></li>
+          <li class="breadcrumb-item active">新增</li>
+        </ol>
+      </nav>
+      <h2 class="section__title mb-4">
+        新增獎項
+      </h2>
+      <% if (errMessage && errMessage.length > 0) { %>
+        <div class="alert alert-danger" role="alert">
+          <%= errMessage %>
+        </div>
+      <% } %>
+
+      <form method="POST" action="/add_prize" enctype="multipart/form-data">    
+        <div class="mb-3">
+          <label class="form-label">獎項名稱</label>
+          <input type="text" class="form-control" name="prize">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">說明</label>
+          <input type="text" class="form-control" name="content">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">圖片</label>
+          <input type="file" class="form-control" name="imgUrl" accept=".jpg, .jpeg, .png"><br>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary">送出</button>
+          <button type="button" onclick="window.history.back();" class="btn btn-secondary">返回</button>
+        </div>
+      </form>
+      <div class="img-preview mt-4">
+        圖片預覽
+        <img class="img-preview__img card-img-top">
+      </div>
+    </section>
+  </div>
+
+  <%- include('../../template/footer') %>
+</body>
+</html>

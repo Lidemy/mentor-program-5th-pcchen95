@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <%- include('../template/header') %>
+  <title>後台 - Just A Bite!</title>
+  <link rel="stylesheet" href="/css/style-admin.css"> 
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+
+<body>
+  <%- include('../template/navbar_admin') %>
+
+  <div class="admin__main-area">
+    <section class="admin__section">
+      <nav style="--bs-breadcrumb-divider: '>';">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item active">後台首頁</li>
+        </ol>
+      </nav>
+      <h2 class="section__title">
+        後台管理首頁
+      </h2>
+      <div class="list-group mt-4">
+        <a href="/menu_management" class="list-group-item list-group-item-action">菜單管理</a>
+        <a href="/faq_management" class="list-group-item list-group-item-action">常見問題管理</a>
+        <a href="/prize_management" class="list-group-item list-group-item-action">抽獎管理</a>
+      </div>
+    </section>
+  </div>
+
+  <%- include('../template/footer') %>
+</body>
+</html>

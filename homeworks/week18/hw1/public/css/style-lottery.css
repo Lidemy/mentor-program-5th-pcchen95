@@ -1,0 +1,164 @@
+.main-area, .prize__main {
+  min-height: calc(100vh - 84px - 254px);
+  padding-top: 55px;
+  padding-bottom: 152px;
+  position: relative;
+}
+
+.main-area {
+  background: url("/images/games-bn.png") center/cover no-repeat;
+}
+
+.prize__main {
+  background: black center/cover no-repeat;
+  z-index: 2;
+}
+
+.prize__name, .prize__content {
+  text-align: center;
+}
+
+.prize__name {
+  width: 100%;
+  padding: 15px;
+  color: black;
+  font-weight: normal;
+}
+
+.prize__name {
+  height: 140px;
+}
+
+.prize__name h2 {
+  font-size: 36px;
+  color: #9c1212;
+}
+
+.prize__content h3 {
+  font-size: 24px;
+  color: black;
+}
+
+.prize__content {
+  height: 200px;
+}
+
+.prize__content {
+  width: 100%;
+}
+
+.prize__main:after {
+  position: absolute;
+  content: '';
+  background: rgba(255, 255, 255, 0.5);
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.event, .prize__section {
+  margin: 0 auto;
+  width: 500px;
+  height: auto;
+  background: white;
+  border-radius: 16px;
+  padding: 25px 20px;
+}
+
+.prize__section {
+  height: 500px;
+  background: rgba(255, 255, 255, 0.8);
+  position: relative;
+  z-index: 1;
+}
+
+.hide {
+  display: none;
+}
+
+.event__title {
+  color: #5ec1b6;
+  margin: 15px 0 44px 0;
+}
+
+.event__title h1 {
+  text-align: center;
+  font-size: 24px;
+}
+
+.event__desc {
+  display: flex;
+  align-items: flex-start;
+  color: #322929;
+  margin: 20px 0 25px 0;
+}
+
+.event__desc-title {
+  display: flex;
+  width: 102px;
+  font-size: 18px;
+  font-weight: bold;
+} 
+
+.event__desc-content {
+  flex: 1;
+  font-size: 16px;
+  line-height: 1.5em;
+}
+
+hr {
+  width: 100%;
+  height: 0px;
+  border: dotted 1px #cdcdcd;
+  margin: 0;
+  text-align: center;
+}
+
+.prize {
+  position: relative;  
+  padding: 135px;
+  z-index: 2;
+}
+
+.event__btn {
+  text-align: center;
+  margin-top: 36px;
+}
+
+.lottery-again {
+  text-align: center;
+}
+
+.draw-btn {
+  background: #e62a45;
+  color: white;
+  font-size: 20px;
+  border: solid 0px transparent;
+  border-radius: 8px;
+  width: 400px;
+  height: 55px;
+  cursor: pointer;
+}
+
+
+@media(max-width: 768px) {
+  .event, .prize__section {
+    width: 100%;
+    border-radius: 0px;
+  }
+
+  .event__desc-content {
+    width: 90%;
+  }
+
+  .prize {
+    padding: 135px 20px;
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .event__btn button, .lottery-again button {
+    width: 80%;
+  }
+}
