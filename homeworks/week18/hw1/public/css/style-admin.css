@@ -1,0 +1,170 @@
+.admin__main-area {
+  height: auto;
+  min-height: calc(100vh - 100px - 260px);
+  padding: 20px;
+}
+
+.admin__section {
+  margin: 0 auto;
+  max-width: 800px;
+  height: auto;
+  background: white;
+  border-radius: 16px;
+  padding: 25px 20px;
+  min-height: calc(100vh - 100px - 262px - 55px - 152px);
+}
+
+.admin__menu-title {
+  text-align: center;
+  background: #ff000024;
+  margin: 20px 0;
+}
+
+.admin__add-item {
+  text-align: right;
+}
+
+table {
+  width: 100%;
+  text-align: center;  
+}
+
+th, td {
+  padding: 5px;
+}
+
+th {
+  border-bottom: 1px solid grey;
+}
+
+.menu-name {
+  width: auto;
+}
+
+.menu-price {
+  width: 100px;
+}
+
+.menu-img {
+  width: 120px;
+}
+
+.menu-img__preview {
+  width: 100px;
+}
+
+.menu-btn {
+  width: 80px;
+}
+
+input[name=price] {
+  width: 80%;
+  margin-left: 3px;
+}
+
+.menu-price__field {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-price__input-field {
+  display: flex;
+  align-items: center;
+  width: 100px;
+}
+
+.menu-price__field:before {
+  content: '$';
+}
+
+.menu-price__input-field:before {
+  content: '$';
+}
+
+.event__title {
+  position: relative;
+}
+
+.back-icon {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 24px;
+  cursor: pointer;
+}
+
+.add-icon, .delete-icon {
+  width: 26px;
+  filter: opacity(50%);
+  margin: 0 0 10px 5px;
+  cursor: pointer;
+}
+
+.add-icon:hover, .delete-icon:hover {
+  filter: opacity(100%);
+  transition: all 0.3s;
+}
+
+.img-preview {
+  width: 300px;
+  height: 350px;
+}
+
+.img-preview__img, .img-current__img {
+  margin-top: 20px;
+}
+
+.faq-table > tbody {
+  text-align: left;  
+}
+
+.faq-question {
+  width: 200px;
+}
+
+.faq-answer {
+  width: auto;
+}
+
+.faq-anser__input {
+  height: 200px;
+}
+
+.table_prize {
+  width: 120px;
+}
+
+.table_content {
+  width: auto;
+}
+
+.table_prob {
+  width: 75px;
+}
+
+.table_img {
+  width: 200px;
+}
+
+.table_btn {
+  width: 65px;
+}
+.input-remind-text {
+  font-size: 14spx;
+  color: #2a5008;
+}
+.required-icon {
+  color: red;
+}
+
+.hide {
+  display: none;
+}
+
+.btn-group {
+  position: absolute !important;
+  right: 5px;
+  top: 50%;
+  transform: translate(0, -50%);
+}

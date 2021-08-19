@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <%- include('template/header') %>
+  <title>FAQ - Just A Bite!</title>
+  <script type="text/javascript" src="/js/faq.js"></script>
+</head>
+<body>
+  <%- include('template/navbar') %>
+
+  <section class="section__faq">
+    <h2 class="section__title-faq">
+      FAQ - 常見問題
+    </h2>
+    <% 
+    let i = 0
+    items.forEach(item => { %>
+      <div class="question">
+        <span class="question-no">Q<%= i + 1 %>:</span><span class="question-title"><%= item.question %></span>
+      </div>
+      <div class="answer">
+        <%= item.answer %>
+      </div>
+      <hr>
+    <% i++; }) %>  
+  </section>
+
+  <%- include('template/footer') %>
+</body>
+</html>
