@@ -7,14 +7,17 @@
   if (!empty($_GET['page'])) {
     $page = $_GET['page'];
   }
-  $item_per_page = 5;
+  $item_per_page = 8;
   $offset = ($page - 1) * $item_per_page;
 
   $stmt = $conn->prepare(
-    "SELECT U.nickname AS nickname, U.username AS username, U.role AS role, " .
-    "C.content AS content, C.created_at AS created_at, C.id AS id " .
+    "SELECT U.nickname AS nickname, U.username AS username, U.role_id AS role_id, " .
+    "C.content AS content, C.created_at AS created_at, C.id AS id, " .
+    "add_comment, delete_own, delete_any, update_own, update_any " .
     "FROM pcchen_board_comments AS C " .
-    "LEFT JOIN pcchen_board_users AS U ON C.username = U.username " .
+    "LEFT JOIN ( " .
+      "pcchen_board_users AS U LEFT JOIN pcchen_board_roles AS R ON U.role_id = R.id " .
+    ") ON C.username = U.username " .
     "WHERE C.is_deleted IS NULL " .
     "ORDER BY C.id DESC " .
     "LIMIT ? OFFSET ?"
@@ -64,8 +67,9 @@
         <div class="board__buttons">
           <a class="board__btn update-nickname">編輯暱稱</a>
           <a class="board__btn update-nickname cancel-update-nickname hide">取消編輯</a>
+          <a href="authority.php" class="board__btn">個人資料</a>
           <a href="handle_logout.php" class="board__btn">登出</a>
-          <?php if ($user['role'] === "admin") { ?>
+          <?php if ($user['role_id'] === 1) { ?>
           <a href="admin.php" class="board__btn admin-btn">後台管理</a>
           <?php } ?>   
         </div>
@@ -83,8 +87,8 @@
       
       <?php 
         if ($username) { 
-          if ($user['role'] === "suspended") { ?>
-            <h3>您已被停權，無法新增留言</h3>
+          if ($user['add_comment'] === NULL) { ?>
+            <h3>無新增留言權限</h3>
       <?php } else { ?>
         <form class="board__new-comment-form" method="POST" action="handle_add_comment.php"> 
           <textarea  name="content" rows="5"></textarea>
@@ -135,9 +139,14 @@
               </div>
             </div>
             <div class="card__edit">
-              <?php if ((!empty($user['role']) && $user['role'] === "admin") 
-                      || $username === $row['username']) { ?>
+              <?php if (!empty($username) && $user['update_any'] === 1 ||
+                      ($username === $row['username'] && $user['update_own'] === 1)
+                    ) { ?>
                 <a href="update_comment.php?id=<?php echo $row['id']; ?>"><img src="images/edit.png" title="編輯"/></a>
+              <?php } ?>
+              <?php if (!empty($username) && $user['delete_any'] === 1 ||
+                ($username === $row['username'] && $user['delete_own'] === 1)
+              ) { ?>
                 <a href="handle_delete_comment.php?id=<?php echo $row['id']; ?>"><img src="images/delete.png" title="刪除" /></a>
               <?php } ?>
             </div>

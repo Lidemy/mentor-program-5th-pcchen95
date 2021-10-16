@@ -61,13 +61,14 @@
         <a class="nav__blog-btn" href="about.php">關於我</a>
       </div>
       <div class="nav__ctrl-btn">
+        <a class="nav__blog-btn" href="add_article.php">分類管理</a>
         <a class="nav__blog-btn" href="add_article.php">新增文章</a>
         <a class="nav__blog-btn" href="handle_logout.php">登出</a>
       </div>
     </div>
   </nav>
   <div class="banner">
-    <h1>存放技術之地 - 後台</h1>
+    <h1>存放技術之地 - 文章管理</h1>
     <h3>Welcome to my blog</h3>
   </div>
   <main class="main__admin">

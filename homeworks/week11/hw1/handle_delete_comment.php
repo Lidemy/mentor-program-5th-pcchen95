@@ -3,11 +3,6 @@
   require_once("conn.php");
   require_once("utils.php");
 
-  if (empty($_GET['id'])) {
-    header('Location: index.php?errCode=1');
-    exit();
-  }
-
   $username = NULL;
   $user = NULL;
   if (!empty($_SESSION['username'])) {
@@ -18,9 +13,11 @@
   $id = $_GET['id'];
   $username = getAuthorFromId($id);
   // 沒有登入、或非管理員且非作者本人，不可刪除留言
+  // 有權限：$user && (($user['delete_own'] === 1 && $user['username'] === $username) || $user['delete_any'])
   if (
-    !$user || 
-    ($user['role'] !== "admin" && $user['username'] !== $username)
+    !$user || (
+      ($user['delete_own'] !== 1 && $user['username'] !== $username) &&
+      $user['delete_any'] !== 1)
   ) {
     header("Location: index.php");
     exit();
@@ -34,6 +31,6 @@
     die($conn->error);
   }
   
-  header("Location: index.php");
+ header("Location: index.php");
   
 ?>

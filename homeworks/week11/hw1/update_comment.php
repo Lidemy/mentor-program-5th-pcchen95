@@ -13,7 +13,11 @@
   $id = $_GET['id'];
   $username = getAuthorFromId($id);
 
-  if ($user['role'] !== "admin" && $user['username'] !== $username) {
+  if (
+    !$user || (
+      ($user['update_own'] !== 1 && $user['username'] !== $username) &&
+      $user['update_any'] !== 1)
+  )  {
     header("Location: index.php");
     exit();
   } 

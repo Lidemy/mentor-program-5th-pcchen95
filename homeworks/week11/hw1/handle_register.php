@@ -15,7 +15,7 @@
   $username = $_POST['username'];
   $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-  $sql ="INSERT INTO pcchen_board_users(nickname, username, password, role) VALUES (?, ?, ?, 'normal')";
+  $sql ="INSERT INTO pcchen_board_users(nickname, username, password) VALUES (?, ?, ?)";
   $stmt = $conn->prepare($sql);
   $stmt->bind_param("sss", $nickname, $username, $password);
   $result = $stmt->execute();
